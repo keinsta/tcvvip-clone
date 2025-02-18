@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0  w-full max-w-[500px] h-[70px] bg-white flex items-center justify-around shadow-t-md border-t">
+    <footer className="fixed bottom-0  w-full max-w-[500px] h-[70px] bg-white flex items-center justify-around shadow-t-md ">
       <FooterItem icon={<Home size={24} />} label="Home" />
-      <FooterItem icon={<Percent size={24} />} label="Promotion" />
+      <FooterItem icon={<Percent size={24} />} label="Promo" />
 
       {/* Central Agent Icon (Larger & Raised) */}
       <div className="flex flex-col items-center relative -top-4">
-        <FooterItem icon={<Users size={32} />} label="Agent" isCentral />
+        <FooterItem icon={<Users size={34} />} label="Agent" isCentral />
       </div>
 
       <FooterItem icon={<Wallet size={24} />} label="Wallet" />

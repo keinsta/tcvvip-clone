@@ -186,19 +186,21 @@ const Login = () => {
           </div>
         </div>
 
-        <button
-          onClick={handleSubmit}
-          className="w-full py-2 mt-6 text-white bg-gradient-to-r from-orange-400 to-orange-600 rounded-lg shadow-lg text-lg font-bold transition-all"
-        >
-          Log In
-        </button>
+        <div className="flex">
+          <button
+            onClick={handleSubmit}
+            className="w-full py-2 mr-1 text-white bg-gradient-to-r from-orange-400 to-orange-600 rounded-lg shadow-lg text-lg font-bold transition-all"
+          >
+            Log In
+          </button>
 
-        <button
-          onClick={() => navigate("/register")}
-          className="w-full py-2 mt-6 text-orange-600 border-2 border-orange-600 bg-white rounded-lg shadow-lg text-lg font-bold hover:bg-orange-600 hover:text-white transition-all"
-        >
-          Register
-        </button>
+          <button
+            onClick={() => navigate("/register")}
+            className="w-full py-2 ml-1 text-orange-600 border-2 border-orange-600 bg-white rounded-lg shadow-lg text-lg font-bold hover:bg-orange-600 hover:text-white transition-all"
+          >
+            Register
+          </button>
+        </div>
 
         <div>
           <div className="w-full flex justify-between items-center mt-6">
