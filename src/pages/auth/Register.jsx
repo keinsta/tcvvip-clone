@@ -53,7 +53,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full max-w-[500px] mx-auto">
+    <div className="w-full max-w-[500px] mx-auto mb-10">
       <div className="w-full bg-gradient-to-r from-orange-400 to-orange-600 pb-3">
         <div className="w-full h-[54px] flex items-center justify-between px-4">
           <div className="flex-shrink-0">
