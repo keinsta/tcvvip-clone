@@ -9,6 +9,7 @@ import TrxWinGo from "../components/Lottery/TrxWinGo";
 import Racing from "../components/Lottery/Racing";
 import FiveD from "../components/Lottery/5D";
 import KThree from "../components/Lottery/K3";
+import WinTile from "../components/WinningInfo";
 
 const items = [
   { name: "Box 1" },
@@ -23,7 +24,7 @@ const items = [
 
 const LandingPage = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100">
+    <div className="min-h-screen mb-24 flex flex-col items-center">
       <Header />
 
       {/* Content Area */}
@@ -47,7 +48,7 @@ const LandingPage = () => {
         </div>
 
         {/* Home Menu Lottery Container */}
-        <div className="w-full h-[870px] mx-auto  rounded-lg shadow-lg flex flex-col items-center mt-3">
+        <div className="w-full mx-auto flex flex-col items-center mt-3">
           <div className="w-full flex items-center pl-4 py-2">
             <Ticket size={30} className="text-orange-500 mr-2" />
             <h1 className="text-2xl font-bold text-gray-800">Lottery</h1>
@@ -57,6 +58,11 @@ const LandingPage = () => {
           <Racing />
           <KThree />
           <FiveD />
+        </div>
+
+        {/* Home Winning Information */}
+        <div className="w-full">
+          <WinTile />
         </div>
       </div>
     </div>
