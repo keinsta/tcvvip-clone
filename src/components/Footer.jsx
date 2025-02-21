@@ -5,8 +5,12 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="fixed bottom-0  w-full max-w-[500px] h-[70px] bg-white flex items-center justify-around shadow-t-md ">
-      <FooterItem icon={<Home size={24} />} label="Home" />
-      <FooterItem icon={<Percent size={24} />} label="Promo" />
+      <Link to={"/"}>
+        <FooterItem icon={<Home size={24} />} label="Home" />
+      </Link>
+      <Link to={"/promotion"}>
+        <FooterItem icon={<Percent size={24} />} label="Promo" />
+      </Link>
 
       {/* Central Agent Icon (Larger & Raised) */}
       <div className="flex flex-col items-center relative -top-4">

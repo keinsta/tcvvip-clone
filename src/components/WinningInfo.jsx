@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Trophy } from "lucide-react";
+import { motion } from "framer-motion";
 
 const dummyData = [
   {
     id: 1,
     name: "John Doe",
-    memberId: "M-001",
+    memberId: "Member-001",
     prize: "$5000",
     avatar: "https://i.pravatar.cc/50?img=1",
     badge: "https://picsum.photos/80/40",
@@ -13,7 +14,7 @@ const dummyData = [
   {
     id: 2,
     name: "Alice Smith",
-    memberId: "M-002",
+    memberId: "Member-002",
     prize: "$7000",
     avatar: "https://i.pravatar.cc/50?img=2",
     badge: "https://picsum.photos/80/40",
@@ -21,77 +22,141 @@ const dummyData = [
   {
     id: 3,
     name: "Michael Johnson",
-    memberId: "M-003",
+    memberId: "Member-00fh3",
     prize: "$9000",
     avatar: "https://i.pravatar.cc/50?img=3",
     badge: "https://picsum.photos/80/40",
   },
   {
     id: 4,
-    name: "John Doe",
-    memberId: "M-001",
-    prize: "$5000",
-    avatar: "https://i.pravatar.cc/50?img=1",
+    name: "Sarah Williams",
+    memberId: "Member-004",
+    prize: "$6000",
+    avatar: "https://i.pravatar.cc/50?img=4",
     badge: "https://picsum.photos/80/40",
   },
   {
     id: 5,
-    name: "Alice Smith",
-    memberId: "M-002",
-    prize: "$7000",
-    avatar: "https://i.pravatar.cc/50?img=2",
+    name: "David Brown",
+    memberId: "Member-005",
+    prize: "$8000",
+    avatar: "https://i.pravatar.cc/50?img=5",
     badge: "https://picsum.photos/80/40",
   },
   {
     id: 6,
-    name: "Michael Johnson",
-    memberId: "M-003",
-    prize: "$9000",
-    avatar: "https://i.pravatar.cc/50?img=3",
+    name: "Emily Davis",
+    memberId: "Member-006",
+    prize: "$7500",
+    avatar: "https://i.pravatar.cc/50?img=6",
+    badge: "https://picsum.photos/80/40",
+  },
+  {
+    id: 7,
+    name: "Chris Martin",
+    memberId: "Member-007",
+    prize: "$9200",
+    avatar: "https://i.pravatar.cc/50?img=7",
+    badge: "https://picsum.photos/80/40",
+  },
+  {
+    id: 8,
+    name: "Sophia Wilson",
+    memberId: "Member-008",
+    prize: "$8600",
+    avatar: "https://i.pravatar.cc/50?img=8",
     badge: "https://picsum.photos/80/40",
   },
 ];
 
 const WinTile = () => {
+  const [tiles, setTiles] = useState(dummyData.slice(0, 6));
+  const [isFading, setIsFading] = useState(false);
+
+  const maskMemberId = (id) => {
+    if (!id.startsWith("Member-")) return id; // Ensure it's the correct format
+    const lastTwo = id.slice(-2); // Get last 2 characters
+    return `Mem****${lastTwo}`; // Mask the middle part
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsFading(true); // Start fade-out effect
+
+      setTimeout(() => {
+        setTiles((prevTiles) => {
+          const updatedTiles = [...prevTiles];
+          const nextTile =
+            dummyData[
+              (dummyData.indexOf(updatedTiles[0]) + 6) % dummyData.length
+            ]; // Get next tile from list
+          updatedTiles.shift(); // Remove first tile
+          updatedTiles.push(nextTile); // Add new tile at the end
+          return updatedTiles;
+        });
+
+        setIsFading(false); // Fade-in new content
+      }, 400); // Sync with animation duration
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="flex flex-col items-center  bg-gray-100 p-2 space-y-3">
-      <div className="w-full flex items-center pl-4 py-2">
-        <Trophy size={30} className="text-orange-500 mr-2" />
-        <h1 className="text-2xl font-bold text-gray-800">
+    <div className="flex flex-col items-center bg-gradient-to-b from-orange-600 to-orange-300 p-4 space-y-4 overflow-hidden rounded-xl shadow-xl mt-2 mx-2">
+      {/* Header - No Animation Applied */}
+      <div className="w-full flex items-center">
+        <Trophy size={30} className="text-yellow-400 mr-2 animate-bounce" />
+        <h1 className="text-3xl font-extrabold text-white">
           Winning Information
         </h1>
       </div>
-      {dummyData.map((item) => (
-        <div
-          key={item.id}
-          className="w-full h-[60px] bg-white rounded-lg shadow-md flex items-center justify-between px-4 space-x-4"
-        >
-          {/* User Avatar & ID */}
-          <div className="flex items-center">
-            <img
-              src={item.avatar}
-              alt="User Avatar"
-              className="w-[40px] h-[40px] mr-2 rounded-full border border-gray-300"
-            />
-            <p className="text-gray-500 text-sm">ID: {item.memberId}</p>
-          </div>
 
-          {/* Badge Image */}
-          <img
-            src={item.badge}
-            alt="Badge"
-            className="w-[80px] h-[40px] rounded-md shadow-sm"
-          />
+      {/* Animated Tile Section */}
+      <div className="relative w-full space-y-2 overflow-hidden h-[390px]">
+        {tiles.map((item, index) => (
+          <motion.div
+            key={item.id}
+            className="w-full h-[60px] bg-white rounded-lg shadow-lg flex items-center justify-between px-6 space-x-4 absolute transition-transform duration-700 ease-in-out"
+            style={{ top: `${index * 65}px` }}
+          >
+            {/* Animated Inner Content */}
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: isFading ? 0 : 1 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center justify-between w-full"
+            >
+              {/* Avatar & ID */}
+              <div className="flex items-center">
+                <img
+                  src={item.avatar}
+                  alt="User Avatar"
+                  className="w-[45px] h-[45px] mr-3 rounded-full border-2 border-indigo-500 shadow-md"
+                />
+                <p className="text-gray-700 text-sm font-semibold">
+                  ID: {maskMemberId(item.memberId)}{" "}
+                </p>
+              </div>
 
-          {/* Winning Prize */}
-          <div className="flex flex-col items-center">
-            <p className="text-lg font-semibold text-orange-500">
-              {item.prize}
-            </p>
-            <p className="text-sm text-gray-500">Winning Prize</p>
-          </div>
-        </div>
-      ))}
+              {/* Badge Image */}
+              <img
+                src={item.badge}
+                alt="Badge"
+                className="w-[70px] h-[40px] rounded-md shadow-md border border-gray-300"
+              />
+
+              {/* Prize Info */}
+              <div className="flex flex-col items-center">
+                <p className="text-xl font-bold text-orange-500">
+                  {item.prize}
+                </p>
+                <p className="text-sm text-gray-500">Winning Prize</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 };

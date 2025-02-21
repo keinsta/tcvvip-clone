@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import Promotions from "./pages/Promotions";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/promotion" element={<Promotions />} />
           </Routes>
         </div>
 

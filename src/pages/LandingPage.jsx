@@ -1,46 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { Ticket } from "lucide-react";
 
 import Header from "../components/Header";
 import Carousel from "../components/Carousel/HeroCarousel";
 import InfoContainer from "../components/InfoSlider";
-import Lottery from "../components/Lottery/WinGo";
-import TrxWinGo from "../components/Lottery/TrxWinGo";
-import Racing from "../components/Lottery/Racing";
-import FiveD from "../components/Lottery/5D";
-import KThree from "../components/Lottery/K3";
 import WinTile from "../components/WinningInfo";
+import RankStage from "../components/TodayEarningRank";
+
+import Lottery from "../components/lottery/Lottery";
+import MiniGames from "../components/mini-games/MiniGames";
+import Slots from "../components/slots/Slots";
+import Sports from "../components/sports/Sports";
+import Casino from "../components/casino/Casino";
+import Rummy from "../components/rummy/Rummy";
+import Fishing from "../components/fishing/Fishing";
+import Popular from "../components/popular/Popular";
+
+import { images } from "../assets/images/home-game-list/index";
 
 const items = [
-  { name: "Box 1" },
-  { name: "Box 2" },
-  { name: "Box 3" },
-  { name: "Box 4" },
-  { name: "Box 5" },
-  { name: "Box 6" },
-  { name: "Box 7" },
-  { name: "Box 8" },
+  { name: "Lottery", image: images.image1, component: <Lottery /> },
+  { name: "Original", image: images.image2, component: <MiniGames /> },
+  { name: "Slots", image: images.image3, component: <Slots /> },
+  { name: "Sports", image: images.image4, component: <Sports /> },
+  { name: "Casino", image: images.image5, component: <Casino /> },
+  { name: "Rummy", image: images.image6, component: <Rummy /> },
+  { name: "Fishing", image: images.image7, component: <Fishing /> },
+  { name: "Popular", image: images.image8, component: <Popular /> },
 ];
 
 const LandingPage = () => {
+  const [selectedItem, setSelectedItem] = useState(0);
+
   return (
     <div className="min-h-screen mb-24 flex flex-col items-center">
       <Header />
 
       {/* Content Area */}
-      <div className="flex-grow w-full flex flex-col items-center pt-2">
+      <div className="flex-grow w-full flex flex-col items-center pt-2 bg-slate-50">
         <Carousel />
         <InfoContainer />
 
         {/* Home Menu Box */}
-        <div className=" mx-auto flex flex-wrap justify-center items-center rounded-lg shadow-lg">
+        <div className="mx-auto flex flex-wrap justify-center items-center rounded-lg shadow-lg">
           {items.map((item, index) => (
             <div
               key={index}
-              className="w-[109px] h-[120px] bg-white rounded-xl flex flex-col justify-center items-center shadow-md m-2"
+              className={`w-[109px] h-[120px] p-2 rounded-xl flex flex-col justify-center items-center shadow-md m-2 cursor-pointer transition-all duration-300 ${
+                selectedItem === index ? "bg-orange-500" : "bg-white"
+              }`}
+              onClick={() => setSelectedItem(index)}
             >
-              <div className="w-full h-full bg-orange-500 rounded-lg"></div>
-              <p className="mt-1 text-sm font-semibold text-gray-700">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-full h-[80px] rounded-lg object-cover"
+              />
+              <p
+                className={`mt-1 text-sm ${
+                  selectedItem === index
+                    ? "text-white font-semibold"
+                    : "text-gray-700"
+                }`}
+              >
                 {item.name}
               </p>
             </div>
@@ -51,18 +73,21 @@ const LandingPage = () => {
         <div className="w-full mx-auto flex flex-col items-center mt-3">
           <div className="w-full flex items-center pl-4 py-2">
             <Ticket size={30} className="text-orange-500 mr-2" />
-            <h1 className="text-2xl font-bold text-gray-800">Lottery</h1>
+            <h1 className="text-2xl font-bold text-gray-800">
+              {items[selectedItem].name}
+            </h1>
           </div>
-          <Lottery />
-          <TrxWinGo />
-          <Racing />
-          <KThree />
-          <FiveD />
+          {items[selectedItem].component}
         </div>
 
         {/* Home Winning Information */}
         <div className="w-full">
           <WinTile />
+        </div>
+
+        {/* Today's Earning Ranks section */}
+        <div className="w-full">
+          <RankStage />
         </div>
       </div>
     </div>

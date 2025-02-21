@@ -3,7 +3,7 @@ import { Volume2 } from "lucide-react"; // Import the speaker icon from lucide-r
 
 const InfoContainer = () => {
   return (
-    <div className="w-full h-[37px] bg-slate-300 my-2 p-2 flex items-center overflow-hidden relative">
+    <div className="w-full h-[37px]  my-2 p-2 flex items-center overflow-hidden relative bg-white">
       {/* Speaker Icon (Left) */}
       <div className="flex-shrink-0">
         <Volume2 size={18} className="text-gray-600" />
@@ -23,7 +23,7 @@ const InfoContainer = () => {
 
       {/* Button with Fire Icon (Right) */}
       <div className="flex items-center justify-center bg-orange-500 text-white rounded-full p-1 ml-auto cursor-pointer">
-        <svg
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -32,8 +32,8 @@ const InfoContainer = () => {
           viewBox="0 0 16 16"
         >
           <path d="M7 0h2v8h-2z" />
-        </svg>
-        <span className="text-xs">Details</span>
+        </svg> */}
+        <span className="text-xs px-2">Details</span>
       </div>
     </div>
   );
