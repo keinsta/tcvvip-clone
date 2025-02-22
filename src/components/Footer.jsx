@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0  w-full max-w-[500px] h-[70px] bg-white flex items-center justify-around shadow-t-md ">
+    <footer className="fixed bottom-0 w-full max-w-[500px] h-[70px] bg-white flex items-center justify-around shadow-t-md ">
       <Link to={"/"}>
         <FooterItem icon={<Home size={24} />} label="Home" />
       </Link>
@@ -14,7 +14,7 @@ const Footer = () => {
 
       {/* Central Agent Icon (Larger & Raised) */}
       <div className="flex flex-col items-center relative -top-4">
-        <FooterItem icon={<Users size={34} />} label="Agent" isCentral />
+        <FooterItem icon={<Users size={26} />} label="Agent" isCentral />
       </div>
 
       <Link to={"/wallet"}>
