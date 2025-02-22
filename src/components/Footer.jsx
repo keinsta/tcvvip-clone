@@ -17,7 +17,9 @@ const Footer = () => {
         <FooterItem icon={<Users size={34} />} label="Agent" isCentral />
       </div>
 
-      <FooterItem icon={<Wallet size={24} />} label="Wallet" />
+      <Link to={"/wallet"}>
+        <FooterItem icon={<Wallet size={24} />} label="Wallet" />
+      </Link>
       <Link to={"/login"}>
         <FooterItem icon={<User size={24} />} label="Me" />
       </Link>

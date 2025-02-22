@@ -10,6 +10,8 @@ import first_recharge_bonus from "./first_recharge_bonus.png";
 import support_funds from "./support_funds.png";
 import weekly_vip_bonus from "./weekly_vip_bonus.png";
 import winstreak_bonus from "./winstreak_bonus.png";
+import telegram_channel from "./telegram_channel.png";
+import welcome_to_games from "./welcome_to_games.png";
 
 export const activityLinks = [
   { image: activityIcon_prize, text: "Text Activity" },
@@ -35,6 +37,17 @@ export const gifts_bonus = [
 export const main_links = [
   { image: aviator_new_update, title: "Aviator New Update" },
   { image: first_recharge_bonus, title: "First Recharge Bonus" },
+  { image: weekly_vip_bonus, title: "Weekly VIP Bonus" },
+  { image: become_agent_with, title: "Become Agent with" },
+  { image: support_funds, title: "Support Funds 8%" },
+  { image: winstreak_bonus, title: "WinStreak Bonus" },
+];
+
+export const carousel_images = [
+  { image: aviator_new_update, title: "Aviator New Update" },
+  { image: welcome_to_games, title: "Welcome to Game" },
+  { image: first_recharge_bonus, title: "First Recharge Bonus" },
+  { image: telegram_channel, title: "Telegram Channel" },
   { image: weekly_vip_bonus, title: "Weekly VIP Bonus" },
   { image: become_agent_with, title: "Become Agent with" },
   { image: support_funds, title: "Support Funds 8%" },

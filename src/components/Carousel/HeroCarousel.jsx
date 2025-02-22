@@ -1,17 +1,8 @@
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-const images = [
-  "https://picsum.photos/480/200?random=1",
-  "https://picsum.photos/480/200?random=2",
-  "https://picsum.photos/480/200?random=3",
-  "https://picsum.photos/480/200?random=4",
-  "https://picsum.photos/480/200?random=5",
-  "https://picsum.photos/480/200?random=6",
-  "https://picsum.photos/480/200?random=7",
-  "https://picsum.photos/480/200?random=8",
-];
+import { carousel_images } from "../../assets/images/links-images";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const HeroCarousel = () => {
   return (
@@ -29,10 +20,10 @@ const HeroCarousel = () => {
         dynamicHeight={false} // Fix height, do not adjust per slide
         className="rounded-lg" // Optional: Adding some round edges to carousel itself
       >
-        {images.map((image, index) => (
+        {carousel_images.map((image, index) => (
           <div key={index}>
             <img
-              src={image}
+              src={image.image}
               alt={`carousel-img-${index}`}
               className="w-full h-full object-cover rounded-md"
             />

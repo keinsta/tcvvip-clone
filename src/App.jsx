@@ -7,6 +7,7 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Promotions from "./pages/Promotions";
+import UserWallet from "./pages/UserWallet";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/promotion" element={<Promotions />} />
+            <Route path="/wallet" element={<UserWallet />} />
           </Routes>
         </div>
 
