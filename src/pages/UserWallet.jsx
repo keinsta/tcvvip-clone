@@ -14,20 +14,7 @@ const UserWallet = () => {
   return (
     <div className="bg-slate-100 h-[100vh]">
       <div className="w-full bg-gradient-to-r from-orange-400 to-orange-600 pb-6 mb-2">
-        <div className="w-full flex items-center justify-between px-4 pt-2">
-          <div className="flex-shrink-0">
-            <ArrowLeft size={24} className="text-white" />
-          </div>
-
-          <div className="flex-shrink-0 text-white">
-            <select className="bg-transparent border-none text-white">
-              <option value="en">English</option>
-              <option value="ur">Urdu</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="w-full px-4 flex flex-col items-center">
+        <div className="w-full pt-4 px-4 flex flex-col items-center">
           <div className=" text-white flex flex-col items-center">
             <img src={icons[0].icon} alt="Wallet-Icon" className="w-10" />
             <div className="flex flex-col items-center">
@@ -49,7 +36,7 @@ const UserWallet = () => {
         </div>
       </div>
 
-      <div className="w-[95%] mx-auto bg-white rounded-lg shadow-md mt-[-20px] p-4">
+      <div className="w-[95%] mx-auto bg-white rounded-lg shadow-md mt-[-20px] px-4 pt-2">
         <div className="flex justify-around">
           <div className="relative w-28 h-28">
             <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -75,9 +62,11 @@ const UserWallet = () => {
                 cy="50"
               />
             </svg>
-            <div className="absolute inset-0 flex items-center justify-center text-lg text-gray-500">
-              {progress}%
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-lg text-gray-500">
+              <div>{progress}%</div>
+              <span className="text-xs">$0.00</span>
             </div>
+            <p className="text-sm text-center">Main Wallet</p>
           </div>
           <div className="relative w-28 h-28">
             <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -103,12 +92,14 @@ const UserWallet = () => {
                 cy="50"
               />
             </svg>
-            <div className="absolute inset-0 flex items-center justify-center text-lg text-gray-500">
-              {progress}%
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-lg text-gray-500">
+              <span>{progress}%</span>
+              <span className="text-xs">$0.00</span>
             </div>
+            <p className="text-sm text-center">3rd Party Wallet</p>
           </div>
         </div>
-        <button className="bg-gradient-to-r from-orange-400 to-orange-600 w-full rounded-3xl p-2 my-2 text-white font-semibold">
+        <button className="bg-gradient-to-r from-orange-400 to-orange-600 w-full rounded-3xl p-2 mt-8 text-white font-semibold">
           Main Wallet Transfer
         </button>
         <div className="flex justify-between p-4">
@@ -123,7 +114,7 @@ const UserWallet = () => {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto grid grid-cols-3 gap-4 p-4 my-1">
+      <div className="max-w-3xl mx-auto grid grid-cols-3 gap-4 py-2 px-4 my-1">
         {[
           { amount: "$1200", text: "Total Balance" },
           { amount: "$300", text: "Pending Withdrawal" },

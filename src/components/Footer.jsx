@@ -4,25 +4,29 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 w-full max-w-[500px] h-[70px] bg-white flex items-center justify-around shadow-t-md ">
-      <Link to={"/"}>
-        <FooterItem icon={<Home size={24} />} label="Home" />
-      </Link>
-      <Link to={"/promotion"}>
-        <FooterItem icon={<Percent size={24} />} label="Promo" />
-      </Link>
+    <footer className="fixed bottom-0 w-full max-w-[500px] h-[70px] bg-white flex items-center justify-around shadow-t-md">
+      {/* <div>
+        <Link to={"/"}>
+          <FooterItem icon={<Home size={24} />} label="Home" />
+        </Link>
+        <Link to={"/promotion"}>
+          <FooterItem icon={<Percent size={24} />} label="Promo" />
+        </Link>
+      </div> */}
 
       {/* Central Agent Icon (Larger & Raised) */}
-      <div className="flex flex-col items-center relative -top-4">
-        <FooterItem icon={<Users size={26} />} label="Agent" isCentral />
+      <div className="flex flex-col items-center absolute -top-4">
+        <FooterItem icon={<Users size={30} />} label="Agent" isCentral />
       </div>
 
-      <Link to={"/wallet"}>
-        <FooterItem icon={<Wallet size={24} />} label="Wallet" />
-      </Link>
-      <Link to={"/login"}>
-        <FooterItem icon={<User size={24} />} label="Me" />
-      </Link>
+      {/* <div className="">
+        <Link to={"/wallet"}>
+          <FooterItem icon={<Wallet size={24} />} label="Wallet" />
+        </Link>
+        <Link to={"/login"}>
+          <FooterItem icon={<User size={24} />} label="Me" />
+        </Link>
+      </div> */}
     </footer>
   );
 };
