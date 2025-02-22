@@ -123,7 +123,7 @@ const UserWallet = () => {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto grid grid-cols-3 gap-4 p-4 mt-1">
+      <div className="max-w-3xl mx-auto grid grid-cols-3 gap-4 p-4 my-1">
         {[
           { amount: "$1200", text: "Total Balance" },
           { amount: "$300", text: "Pending Withdrawal" },
