@@ -12,8 +12,8 @@ const UserWallet = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="bg-slate-100 h-[100vh]">
-      <div className="w-full bg-gradient-to-r from-orange-400 to-orange-600 pb-6 mb-2">
+    <div className="h-[100vh]">
+      <div className="w-full bg-gradient-yellow-headers pb-6 mb-2">
         <div className="w-full pt-4 px-4 flex flex-col items-center">
           <div className=" text-white flex flex-col items-center">
             <img src={icons[0].icon} alt="Wallet-Icon" className="w-10" />
@@ -36,7 +36,7 @@ const UserWallet = () => {
         </div>
       </div>
 
-      <div className="w-[95%] mx-auto bg-white rounded-lg shadow-md mt-[-20px] px-4 pt-2">
+      <div className="w-[95%] mx-auto bg-[#818181] rounded-lg shadow-md mt-[-20px] px-4 pt-2">
         <div className="flex justify-around">
           <div className="relative w-28 h-28">
             <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -62,11 +62,11 @@ const UserWallet = () => {
                 cy="50"
               />
             </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-lg text-gray-500">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-lg text-gray-100">
               <div>{progress}%</div>
               <span className="text-xs">$0.00</span>
             </div>
-            <p className="text-sm text-center">Main Wallet</p>
+            <p className="text-sm text-white text-center">Main Wallet</p>
           </div>
           <div className="relative w-28 h-28">
             <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -92,14 +92,14 @@ const UserWallet = () => {
                 cy="50"
               />
             </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-lg text-gray-500">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-lg text-gray-100">
               <span>{progress}%</span>
               <span className="text-xs">$0.00</span>
             </div>
-            <p className="text-sm text-center">3rd Party Wallet</p>
+            <p className="text-sm text-white text-center">3rd Party Wallet</p>
           </div>
         </div>
-        <button className="bg-gradient-to-r from-orange-400 to-orange-600 w-full rounded-3xl p-2 mt-8 text-white font-semibold">
+        <button className="bg-gradient-yellow-headers w-full rounded-3xl p-2 mt-8 text-white font-semibold">
           Main Wallet Transfer
         </button>
         <div className="flex justify-between p-4">
@@ -108,7 +108,7 @@ const UserWallet = () => {
               <div className=" p-2 bg-orange-100 rounded-2xl mb-2">
                 <img src={icon.icon} />
               </div>
-              <p className="text-xs text-center">{icon.title}</p>
+              <p className="text-xs text-white text-center">{icon.title}</p>
             </div>
           ))}
         </div>
@@ -125,12 +125,10 @@ const UserWallet = () => {
         ].map((item, index) => (
           <div
             key={index}
-            className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-lg"
+            className="flex flex-col items-center justify-center p-4 bg-[#818181] rounded-lg shadow-lg"
           >
-            <span className="text-sm font-bold text-blue-600">
-              {item.amount}
-            </span>
-            <span className="text-gray-700 text-xs text-center">
+            <span className="text-sm text-white font-bold">{item.amount}</span>
+            <span className="text-gray-100 text-xs text-center">
               {item.text}
             </span>
           </div>

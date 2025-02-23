@@ -36,8 +36,8 @@ const TrxWinGo = () => {
 
   return (
     <div className="w-full max-w-[500px] p-2">
-      <div className="bg-white rounded-lg">
-        <div className="relative bg-gradient-to-r from-orange-600 to-orange-300 rounded-lg p-4 flex flex-col">
+      <div className="bg-[#595959] rounded-lg">
+        <div className="relative bg-yellow-600 rounded-lg p-4 flex flex-col">
           {/* Heading and Paragraphs */}
           <div>
             <h3 className="text-lg font-bold text-white">Trx Win Go</h3>
@@ -58,7 +58,7 @@ const TrxWinGo = () => {
         </div>
 
         {/* Sliding Data Section */}
-        <div className="w-full h-[50px] flex items-center justify-between shadow-md rounded-md overflow-hidden relative">
+        <div className="w-full h-[50px] my-1 flex items-center justify-between shadow-md rounded-md overflow-hidden relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={dummyData[currentIndex].id}
@@ -75,15 +75,15 @@ const TrxWinGo = () => {
                   alt="Avatar"
                   className="w-[35px] h-[35px] rounded-full object-cover"
                 />
-                <p className="ml-3 font-semibold text-gray-800">
+                <p className="ml-3 font-semibold text-gray-200">
                   {dummyData[currentIndex].name}
                 </p>
               </div>
 
               {/* Right Side: Winning Prize */}
               <div className="text-right">
-                <p className="text-sm text-gray-600">Winning Price</p>
-                <p className="text-lg font-bold text-orange-500">
+                <p className="text-sm text-gray-300">Winning Price</p>
+                <p className="text-lg font-bold text-yellow-500">
                   {dummyData[currentIndex].prize}
                 </p>
               </div>

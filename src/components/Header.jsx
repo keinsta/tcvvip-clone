@@ -4,7 +4,7 @@ import HeaderLogo from "../assets/images/HeaderLogo.png";
 
 const Header = () => {
   return (
-    <header className="w-full h-[54px] bg-gradient-to-r from-orange-400 to-orange-600 flex items-center justify-between px-4 shadow-md ">
+    <header className="w-full h-[54px] bg-gradient-yellow-headers flex items-center justify-between px-4 shadow-md ">
       {/* Logo Image */}
       <div className="w-28 h-10">
         <img
@@ -16,7 +16,7 @@ const Header = () => {
 
       {/* Bell Icon Button */}
       <button className="p-2 rounded-full bg-white shadow-md hover:bg-gray-200 transition">
-        <Bell className="w-5 h-5 text-orange-600" />
+        <Bell className="w-5 h-5 text-yellow-600" />
       </button>
     </header>
   );

@@ -12,6 +12,15 @@ export default {
           "100%": { transform: "translateX(-100%)" },
         },
       },
+      colors: {
+        "app-bg": "#3f3f3f",
+        // appBg: "#3f3f33",
+      },
+      backgroundImage: {
+        "gradient-yellow-headers":
+          "linear-gradient(to right, #d97706, #facc15)",
+        "gradient-yellow-cards": "linear-gradient(to right, #DAA521, #FFDF00)",
+      },
     },
   },
   plugins: [],

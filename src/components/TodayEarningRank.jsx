@@ -52,7 +52,7 @@ const maskMemberId = (id) => {
 
 const RankStage = () => {
   return (
-    <div className="flex flex-col items-center p-6 bg-gradient-to-b from-orange-500 to-orange-700 rounded-xl mt-4 w-full max-w-[500px]">
+    <div className="flex flex-col items-center p-8  rounded-xl mt-4">
       <h2 className="text-2xl font-extrabold text-white">
         Today's Earnings Ranks
       </h2>

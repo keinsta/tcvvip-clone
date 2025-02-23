@@ -11,9 +11,9 @@ import UserWallet from "./pages/UserWallet";
 
 const App = () => {
   return (
-    <main className="flex flex-col items-center justify-center bg-gray-100">
+    <main className="flex flex-col items-center justify-center bg-gray-500">
       {/* Outer container that takes full screen height */}
-      <div className="w-full max-w-[500px] bg-white shadow-xl relative overflow-hidden flex flex-col min-h-screen">
+      <div className="w-full max-w-[500px] bg-app-bg shadow-xl relative overflow-hidden flex flex-col min-h-screen">
         {/* Content Section (This grows and pushes footer to bottom) */}
         <div className="flex-grow">
           <Routes>

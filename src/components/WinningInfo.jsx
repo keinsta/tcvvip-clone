@@ -103,11 +103,11 @@ const WinTile = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center bg-gradient-to-b from-orange-600 to-orange-300 p-4 space-y-4 overflow-hidden rounded-xl shadow-xl mt-2 mx-2">
+    <div className="flex flex-col items-center bg-[#595959] p-4 space-y-4 overflow-hidden rounded-xl shadow-xl mt-2 mx-2">
       {/* Header - No Animation Applied */}
       <div className="w-full flex items-center">
-        <Trophy size={30} className="text-yellow-400 mr-2 animate-bounce" />
-        <h1 className="text-3xl font-extrabold text-white">
+        <Trophy size={30} className="text-yellow-600 mr-2 animate-bounce" />
+        <h1 className="text-3xl font-extrabold bg-gradient-to-r from-yellow-600 to-yellow-300 bg-clip-text text-transparent">
           Winning Information
         </h1>
       </div>
@@ -117,7 +117,7 @@ const WinTile = () => {
         {tiles.map((item, index) => (
           <motion.div
             key={item.id}
-            className="w-full h-[60px] bg-white rounded-lg shadow-lg flex items-center justify-between px-6 space-x-4 absolute transition-transform duration-700 ease-in-out"
+            className="w-full h-[60px] bg-app-bg rounded-lg shadow-lg flex items-center justify-between px-6 space-x-4 absolute transition-transform duration-700 ease-in-out"
             style={{ top: `${index * 65}px` }}
           >
             {/* Animated Inner Content */}
@@ -134,7 +134,7 @@ const WinTile = () => {
                   alt="User Avatar"
                   className="w-[45px] h-[45px] mr-3 rounded-full border-2 border-indigo-500 shadow-md"
                 />
-                <p className="text-gray-700 text-sm font-semibold">
+                <p className="text-gray-200 text-sm font-semibold">
                   ID: {maskMemberId(item.memberId)}{" "}
                 </p>
               </div>
@@ -143,15 +143,15 @@ const WinTile = () => {
               <img
                 src={item.badge}
                 alt="Badge"
-                className="w-[70px] h-[40px] rounded-md shadow-md border border-gray-300"
+                className="w-[70px] h-[40px] rounded-md shadow-md"
               />
 
               {/* Prize Info */}
               <div className="flex flex-col items-center">
-                <p className="text-xl font-bold text-orange-500">
+                <p className="text-xl font-bold text-yellow-500">
                   {item.prize}
                 </p>
-                <p className="text-sm text-gray-500">Winning Prize</p>
+                <p className="text-sm text-gray-400">Winning Prize</p>
               </div>
             </motion.div>
           </motion.div>

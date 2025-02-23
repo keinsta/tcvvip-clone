@@ -54,7 +54,7 @@ const Login = () => {
 
   return (
     <div className="w-full max-w-[500px] mx-auto mb-24">
-      <div className="w-full bg-gradient-to-r from-orange-400 to-orange-600 pb-3">
+      <div className="w-full bg-gradient-yellow-headers pb-3">
         <div className="w-full h-[54px] flex items-center justify-between px-4">
           <div className="flex-shrink-0">
             <ArrowLeft size={24} className="text-white" />
@@ -85,8 +85,8 @@ const Login = () => {
         <div
           className={`flex flex-col items-center justify-center w-1/2 cursor-pointer ${
             activeSection === "phone"
-              ? "text-orange-500 border-b-2 border-orange-500"
-              : "text-gray-500"
+              ? "text-yellow-500 border-b-2 border-yellow-500"
+              : "text-gray-200"
           }`}
           onClick={() => handleSectionClick("phone")}
         >
@@ -97,8 +97,8 @@ const Login = () => {
         <div
           className={`flex flex-col items-center justify-center w-1/2 cursor-pointer ${
             activeSection === "email"
-              ? "text-orange-500 border-b-2 border-orange-500"
-              : "text-gray-600"
+              ? "text-yellow-500 border-b-2 border-yellow-500"
+              : "text-gray-200"
           }`}
           onClick={() => handleSectionClick("email")}
         >
@@ -110,25 +110,25 @@ const Login = () => {
       <div className="w-full p-4 space-y-6">
         {activeSection === "phone" && (
           <div>
-            <label className="text-sm text-gray-600 font-semibold">
+            <label className="text-sm text-gray-300 font-semibold">
               Phone Number
             </label>
             <div className="flex items-center mt-2 border border-gray-300 rounded-lg p-2">
               <select
                 value={countryCode}
                 onChange={(e) => setCountryCode(e.target.value)}
-                className="border-none text-sm focus:ring-0 w-1/4 p-1 rounded-l-lg"
+                className="border-none text-sm focus:ring-0 w-1/4 p-1 rounded-l-lg bg-white"
               >
                 <option value="+1">+1</option>
                 <option value="+44">+44</option>
                 <option value="+91">+91</option>
               </select>
               <input
-                type="tel"
+                type="number"
                 value={phoneNumber}
                 onChange={(e) => handleInputChange(e, setPhoneNumber)}
                 placeholder="Enter phone number"
-                className="w-3/4 p-2 focus:outline-none rounded-r-lg text-sm"
+                className="w-3/4 p-2 bg-transparent focus:outline-none rounded-r-lg text-sm text-white placeholder-gray-400 no-spinner"
               />
             </div>
           </div>
@@ -136,7 +136,7 @@ const Login = () => {
 
         {activeSection === "email" && (
           <div>
-            <label className="text-sm text-gray-600 font-semibold">
+            <label className="text-sm text-gray-300 font-semibold">
               Email Address
             </label>
             <div className="flex items-center mt-2 border border-gray-300 rounded-lg p-2">
@@ -145,58 +145,58 @@ const Login = () => {
                 value={email}
                 onChange={(e) => handleInputChange(e, setEmail)}
                 placeholder="Enter your email"
-                className="w-full p-2 focus:outline-none text-sm"
+                className="w-full p-2 text-white bg-transparent focus:outline-none text-sm"
               />
             </div>
           </div>
         )}
 
         <div>
-          <label className="text-sm text-gray-600 font-semibold">
+          <label className="text-sm text-gray-300 font-semibold">
             Password
           </label>
           <div className="flex items-center mt-2 border border-gray-300 rounded-lg p-2">
-            <Lock size={20} className="text-gray-500 mr-3" />
+            <Lock size={20} className="text-gray-300 mr-3" />
             <input
               type="password"
               value={password}
               onChange={(e) => handleInputChange(e, setPassword)}
               placeholder="Enter your password"
-              className="w-full p-2 focus:outline-none text-sm"
+              className="w-full p-2 text-white bg-transparent focus:outline-none text-sm"
             />
           </div>
         </div>
 
         <div>
-          <label className="text-sm text-gray-600 font-semibold">Captcha</label>
+          <label className="text-sm text-gray-300 font-semibold">Captcha</label>
           <div className="flex items-center mt-2 border border-gray-300 rounded-lg p-2">
-            <Shield size={20} className="text-gray-500 mr-3" />
+            <Shield size={20} className="text-gray-300 mr-3" />
             <input
               type="text"
               value={enteredCaptcha}
               onChange={(e) => setEnteredCaptcha(e.target.value)}
               placeholder="Enter captcha"
-              className="w-full p-2 focus:outline-none text-sm"
+              className="w-full p-2 text-white bg-transparent focus:outline-none text-sm"
             />
           </div>
 
           <div className="mt-4 text-center flex justify-center items-center">
-            <span className="text-sm text-gray-600 mr-1">Enter the code: </span>
-            <div className="text-2xl font-bold text-orange-600">{captcha}</div>
+            <span className="text-sm text-gray-300 mr-1">Enter the code: </span>
+            <div className="text-2xl font-bold text-yellow-500">{captcha}</div>
           </div>
         </div>
 
         <div className="flex">
           <button
             onClick={handleSubmit}
-            className="w-full py-2 mr-1 text-white bg-gradient-to-r from-orange-400 to-orange-600 rounded-lg shadow-lg text-lg font-bold transition-all"
+            className="w-full py-2 mr-1 text-white bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-lg shadow-lg text-lg font-bold transition-all"
           >
             Log In
           </button>
 
           <button
             onClick={() => navigate("/register")}
-            className="w-full py-2 ml-1 text-orange-600 border-2 border-orange-600 bg-white rounded-lg shadow-lg text-lg font-bold hover:bg-orange-600 hover:text-white transition-all"
+            className="w-full py-2 ml-1 text-gray-600 border-2 border-yellow-600 bg-white rounded-lg shadow-lg text-lg font-bold hover:bg-yellow-600 hover:text-white transition-all"
           >
             Register
           </button>
@@ -205,12 +205,12 @@ const Login = () => {
         <div>
           <div className="w-full flex justify-between items-center mt-6">
             <div className="flex items-center cursor-pointer">
-              <Lock size={20} className="text-gray-600 mr-2" />
-              <span className="text-sm text-gray-600">Forget Password</span>
+              <Lock size={20} className="text-gray-200 mr-2" />
+              <span className="text-sm text-gray-200">Forget Password</span>
             </div>
             <div className="flex items-center cursor-pointer">
-              <Shield size={20} className="text-gray-600 mr-2" />
-              <span className="text-sm text-gray-600">Customer Support</span>
+              <Shield size={20} className="text-gray-200 mr-2" />
+              <span className="text-sm text-gray-200">Customer Support</span>
             </div>
           </div>
         </div>

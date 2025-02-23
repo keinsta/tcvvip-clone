@@ -37,7 +37,7 @@ const LandingPage = () => {
       <Header />
 
       {/* Content Area */}
-      <div className="flex-grow w-full flex flex-col items-center pt-2 bg-slate-50">
+      <div className="flex-grow w-full flex flex-col items-center pt-2 ">
         <Carousel />
         <InfoContainer />
 
@@ -46,8 +46,8 @@ const LandingPage = () => {
           {items.map((item, index) => (
             <div
               key={index}
-              className={`w-[109px] h-[120px] p-2 rounded-xl flex flex-col justify-center items-center shadow-md m-2 cursor-pointer transition-all duration-300 ${
-                selectedItem === index ? "bg-orange-500" : "bg-white"
+              className={`w-[109px] h-[120px] p-2 rounded-xl flex flex-col justify-center items-center shadow-md m-1 cursor-pointer transition-all duration-300 border border-yellow-900 ${
+                selectedItem === index ? "bg-yellow-700" : ""
               }`}
               onClick={() => setSelectedItem(index)}
             >
@@ -60,7 +60,7 @@ const LandingPage = () => {
                 className={`mt-1 text-sm ${
                   selectedItem === index
                     ? "text-white font-semibold"
-                    : "text-gray-700"
+                    : "text-yellow-500"
                 }`}
               >
                 {item.name}
@@ -71,25 +71,22 @@ const LandingPage = () => {
 
         {/* Home Menu Lottery Container */}
         <div className="w-full mx-auto flex flex-col items-center mt-3">
-          <div className="w-full flex items-center pl-4 py-2">
-            <Ticket size={30} className="text-orange-500 mr-2" />
-            <h1 className="text-2xl font-bold text-gray-800">
+          <div className="w-full flex items-center pl-4 py-2 ">
+            <Ticket size={30} className="text-yellow-600 mr-2" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-yellow-600 to-yellow-300 bg-clip-text text-transparent">
               {items[selectedItem].name}
             </h1>
           </div>
           {items[selectedItem].component}
         </div>
-
-        {/* Home Winning Information */}
-        <div className="w-full">
-          <WinTile />
-        </div>
-
-        {/* Today's Earning Ranks section */}
-        <div className="w-full">
-          <RankStage />
-        </div>
       </div>
+      {/* Home Winning Information */}
+      <div className="w-full">
+        <WinTile />
+      </div>
+
+      {/* Today's Earning Ranks section */}
+      <RankStage />
     </div>
   );
 };

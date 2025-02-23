@@ -9,15 +9,13 @@ import {
 
 const Promotions = () => {
   return (
-    <div className="w-full max-w-[500px] bg-slate-50 mx-auto mb-24">
-      <div className="w-full bg-gradient-to-r from-orange-400 to-orange-600 pb-3">
+    <div className="w-full max-w-[500px] mx-auto mb-24">
+      <div className="w-full bg-gradient-yellow-headers  pb-3">
         <div className="w-full h-[54px] flex items-center justify-between px-4">
           <div className="flex-shrink-0">
             <ArrowLeft size={24} className="text-white" />
           </div>
-          <div className="flex-grow text-center text-white font-semibold">
-            Promotions
-          </div>
+
           <div className="flex-shrink-0 text-white">
             <select className="bg-transparent border-none text-white">
               <option value="en">English</option>
@@ -41,14 +39,14 @@ const Promotions = () => {
         {activityLinks.map((image, index) => (
           <div
             key={index}
-            className="w-full h-28 flex flex-col justify-center items-center bg-white shadow-md rounded-lg"
+            className="w-full h-28 flex flex-col justify-center items-center bg-[#818181] shadow-md rounded-lg"
           >
             <img
               src={image.image}
               alt={`mini-game-${index}`}
               className="w-[50px] h-[50px] object-cover"
             />
-            <p className="text-xs text-center">{image.text}</p>
+            <p className="text-sm text-white text-center">{image.text}</p>
           </div>
         ))}
       </div>
@@ -57,30 +55,28 @@ const Promotions = () => {
         {gifts_bonus.map((image, index) => (
           <div
             key={index}
-            className="w-full flex flex-col bg-white shadow-md rounded-lg"
+            className="w-full flex flex-col bg-[#818181] shadow-md rounded-lg"
           >
             <img
               src={image.image}
               alt={`mini-game-${index}`}
               className="w-full h-[120px] object-cover border-t rounded-lg"
             />
-            <p className="mt-2 text-gray-700 font-semibold px-2">
-              {image.title}
-            </p>
-            <p className="text-gray-700 text-xs px-2 pb-2">{image.content}</p>
+            <p className="mt-2 text-white font-semibold px-2">{image.title}</p>
+            <p className="text-gray-200 text-xs px-2 pb-2">{image.content}</p>
           </div>
         ))}
       </div>
 
       <div className="w-full  p-2">
         {main_links.map((image, index) => (
-          <div key={index} className="bg-white mb-2 shadow-lg rounded-md">
+          <div key={index} className="bg-[#818181] mb-2 shadow-lg rounded-md">
             <img
               src={image.image}
               alt={`mini-game-${index}`}
               className="w-full h-full object-cover border rounded-md"
             />
-            <p className="mt-2 text-gray-700 font-semibold px-2">
+            <p className="mt-2 text-gray-200 font-semibold px-2">
               {image.title}
             </p>
             <p className="text-gray-700 text-xs px-2 pb-2">{image.text}</p>

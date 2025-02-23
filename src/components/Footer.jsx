@@ -15,7 +15,7 @@ const Footer = () => {
       </div>
 
       {/* Central Agent Icon (Larger & Raised) */}
-      <div className="flex flex-col items-center absolute -top-4">
+      <div className="flex flex-col items-center absolute -top-6 bg-white w-16 h-16 pt-2 rounded-full border-t-2">
         <FooterItem icon={<Users size={30} />} label="Agent" isCentral />
       </div>
 
@@ -38,8 +38,8 @@ const FooterItem = ({ icon, label, isCentral }) => {
       className={`flex flex-col items-center cursor-pointer transition-all duration-300
       ${
         isCentral
-          ? "text-orange-500 scale-110"
-          : "text-gray-600 hover:text-orange-500"
+          ? "text-yellow-500 scale-110"
+          : "text-gray-600 hover:text-yellow-500"
       }
       `}
     >
