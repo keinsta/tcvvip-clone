@@ -23,7 +23,7 @@ const Footer = () => {
         <Link to={"/wallet"}>
           <FooterItem icon={<Wallet size={24} />} label="Wallet" />
         </Link>
-        <Link to={"/login"}>
+        <Link to={"/user-me"}>
           <FooterItem icon={<User size={24} />} label="Me" />
         </Link>
       </div>

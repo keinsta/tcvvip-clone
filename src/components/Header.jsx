@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Bell } from "lucide-react";
 import HeaderLogo from "../assets/images/HeaderLogo.png";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <header className="w-full h-[54px] bg-gradient-yellow-headers flex items-center justify-between px-4 shadow-md ">
       {/* Logo Image */}
@@ -15,7 +17,10 @@ const Header = () => {
       </div>
 
       {/* Bell Icon Button */}
-      <button className="p-2 rounded-full bg-white shadow-md hover:bg-gray-200 transition">
+      <button
+        onClick={() => navigate("/user-message")}
+        className="p-2 rounded-full bg-white shadow-md hover:bg-gray-200 transition"
+      >
         <Bell className="w-5 h-5 text-yellow-600" />
       </button>
     </header>

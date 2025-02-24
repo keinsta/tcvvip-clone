@@ -25,13 +25,14 @@ const Register = () => {
     setIsAgreed(e.target.checked);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isAgreed) {
       alert("You must agree to the terms and conditions.");
       return;
     }
 
+    let authBy = "";
     let data = {};
     if (activeSection === "email") {
       if (!isValidEmail(email)) {
@@ -42,14 +43,33 @@ const Register = () => {
         email,
         password,
       };
+      authBy = "email";
     } else if (activeSection === "phone") {
       data = {
         phone: `${countryCode}${phoneNumber}`,
         password,
       };
+      authBy = "phone";
     }
 
-    console.log(data);
+    try {
+      const response = await axiosInstance.post(
+        `/auth/register?authBy=${authBy}`,
+        data
+      ); // Adjusted to include authBy in query
+      console.log("API Response:", response.data);
+
+      if (response.data.success) {
+        alert("Registered successful!");
+        // Redirect user if needed
+        navigate("/");
+      } else {
+        alert(response.data.message || "Something went wrong!");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      alert(error.response?.data?.message || "Login failed!");
+    }
   };
 
   return (
@@ -57,7 +77,11 @@ const Register = () => {
       <div className="w-full bg-gradient-yellow-headers pb-3">
         <div className="w-full h-[54px] flex items-center justify-between px-4">
           <div className="flex-shrink-0">
-            <ArrowLeft size={24} className="text-white" />
+            <ArrowLeft
+              size={24}
+              className="text-white cursor-pointer"
+              onClick={() => navigate("/")}
+            />
           </div>
           <div className="flex-grow text-center text-white font-semibold">
             Register

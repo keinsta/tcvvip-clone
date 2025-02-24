@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Phone, Mail, Lock, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../config/axiosInstance";
+import useAuthStore from "../../store/authStore";
 
 const Login = () => {
   const [activeSection, setActiveSection] = useState("phone");
@@ -10,7 +12,6 @@ const Login = () => {
   const [captcha, setCaptcha] = useState("");
   const [enteredCaptcha, setEnteredCaptcha] = useState(""); // State for user-entered captcha
   const [email, setEmail] = useState("");
-  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false); // State to track captcha verification
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,20 +37,57 @@ const Login = () => {
     setActiveSection(section);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (enteredCaptcha !== captcha) {
       alert("Captcha doesn't match! Please try again.");
       return;
     }
-    setIsCaptchaVerified(true);
-    if (activeSection === "phone") {
-      console.log(`Phone Number: ${countryCode} ${phoneNumber}`);
-    } else if (activeSection === "email") {
-      console.log(`Email: ${email}`);
+
+    let payload = {};
+    let authBy = "";
+
+    if (activeSection === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+      payload = { email, password };
+      authBy = "email";
+    } else if (activeSection === "phone") {
+      payload = { phone: `${countryCode}${phoneNumber}`, password };
+      authBy = "phone";
     }
-    console.log(`Password: ${password}`);
-    console.log(`Captcha: ${captcha}`);
+
+    try {
+      const response = await axiosInstance.post(
+        `/auth/login?authBy=${authBy}`,
+        payload
+      ); // Adjusted to include authBy in query
+      console.log("API Response:", response.data);
+
+      if (response.data.success) {
+        // console.log("User:", response.data.user);
+        // console.log("Token:", response.data.token);
+
+        alert("Login successful!");
+        // Save token if needed
+        // localStorage.setItem("authToken", response.data.token);
+
+        // Update Zustand state immediately to avoid reload
+        useAuthStore.getState().login(response.data.token);
+
+        // Redirect user if needed
+        navigate("/user-me");
+      } else {
+        alert("Internal Server Error");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      alert(error.response?.data?.message || "Login failed!");
+    }
   };
 
   return (
@@ -57,7 +95,11 @@ const Login = () => {
       <div className="w-full bg-gradient-yellow-headers pb-3">
         <div className="w-full h-[54px] flex items-center justify-between px-4">
           <div className="flex-shrink-0">
-            <ArrowLeft size={24} className="text-white" />
+            <ArrowLeft
+              size={24}
+              className="text-white cursor-pointer"
+              onClick={() => navigate("/")}
+            />
           </div>
           <div className="flex-grow text-center text-white font-semibold">
             Login

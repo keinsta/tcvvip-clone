@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
 import {
@@ -8,12 +9,18 @@ import {
 } from "../assets/images/links-images/index";
 
 const Promotions = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full max-w-[500px] mx-auto mb-24">
       <div className="w-full bg-gradient-yellow-headers  pb-3">
         <div className="w-full h-[54px] flex items-center justify-between px-4">
           <div className="flex-shrink-0">
-            <ArrowLeft size={24} className="text-white" />
+            <ArrowLeft
+              size={24}
+              className="text-white cursor-pointer"
+              onClick={() => navigate(-1)}
+            />
           </div>
 
           <div className="flex-shrink-0 text-white">

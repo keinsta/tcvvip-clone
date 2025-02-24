@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
-import { icons } from "../assets/icons/wallet-icons";
+import { icons } from "../../assets/icons/wallet-icons";
 
 const UserWallet = () => {
   const [progress, setProgress] = useState(0);
