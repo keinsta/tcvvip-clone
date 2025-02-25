@@ -10,8 +10,16 @@ import {
   Gift,
   BarChart3,
   Languages,
+  ChevronRight,
+  Settings,
+  MessageSquare,
+  Megaphone,
+  Headphones,
+  BookOpen,
+  Info,
+  LogOut,
 } from "lucide-react";
-
+import useUserStore from "../../store/userStore";
 import safe_banner from "../../assets/images/banners/safe_banner.png";
 import { history_icons } from "../../assets/icons/wallet-icons";
 
@@ -37,10 +45,31 @@ const settings = [
     subtitle: "My Withdraw History",
   },
 ];
+const services = [
+  { icon: <Settings className="w-7 h-7 text-yellow-500" />, title: "Settings" },
+  {
+    icon: <MessageSquare className="w-7 h-7 text-yellow-500" />,
+    title: "Feedback",
+  },
+  {
+    icon: <Megaphone className="w-7 h-7 text-yellow-500" />,
+    title: "Announcement",
+  },
+  {
+    icon: <Headphones className="w-7 h-7 text-yellow-500" />,
+    title: "Customer Service",
+  },
+  {
+    icon: <BookOpen className="w-7 h-7 text-yellow-500" />,
+    title: "Beginner's Guide",
+  },
+  { icon: <Info className="w-7 h-7 text-yellow-500" />, title: "About Us" },
+];
 
 const UserProfile = () => {
   const [copied, setCopied] = useState(false);
   const [balance, setBalance] = useState(1200); // Dummy balance
+  const { notifications, language, markNotificationsAsRead } = useUserStore(); // Zustand store
 
   const refreshBalance = () => {
     // Simulating balance refresh
@@ -107,7 +136,7 @@ const UserProfile = () => {
           </div>
 
           {/* Wallet, Deposit, Withdraw, SVIP Sections */}
-          <div className="grid grid-cols-4 gap-3 text-center">
+          <div className="grid grid-cols-4 gap-5 text-center">
             <div className="flex flex-col items-center cursor-pointer">
               <Wallet className="w-7 h-7 mb-1 text-yellow-500" />
               <p className="text-sm text-white">Wallet</p>
@@ -127,6 +156,7 @@ const UserProfile = () => {
           </div>
         </div>
 
+        {/* Banner Image */}
         <img
           src={safe_banner}
           alt="Safe Banner"
@@ -134,12 +164,12 @@ const UserProfile = () => {
         />
 
         {/* Transaction History */}
-        <div className=" mx-auto rounded-2xl shadow-md">
+        <div className=" rounded-2xl shadow-md">
           <div className="grid grid-cols-2 gap-4">
             {history_icons.map((section, index) => (
               <div
                 key={index}
-                className="flex items-center p-2 bg-[#595959] rounded-lg space-x-4"
+                className="flex items-center p-2 bg-[#595959] rounded-lg space-x-2 cursor-pointer"
               >
                 <div className="w-10 h-10 flex-shrink-0">
                   <img
@@ -162,12 +192,15 @@ const UserProfile = () => {
         </div>
 
         {/* Statistics */}
-        <div className=" mx-auto  rounded-2xl shadow-md my-4">
+        <div className="rounded-2xl shadow-md my-4">
           <div className="grid grid-cols-1 gap-1">
             {settings.map((tile, index) => (
               <div
                 key={index}
                 className="flex items-center justify-between p-4 bg-[#595959] rounded-lg cursor-pointer hover:bg-[#4a4a4a] transition-all"
+                onClick={() =>
+                  tile.key === "notifications" && markNotificationsAsRead()
+                }
               >
                 <div className="flex items-center space-x-4">
                   <span>{tile.icon}</span>
@@ -175,11 +208,46 @@ const UserProfile = () => {
                     {tile.title}
                   </h3>
                 </div>
-                <span className="text-gray-300 text-lg">➜</span>
+
+                {/* Right Arrow and Badge for Notifications */}
+                <div className="relative flex items-center">
+                  {tile.key === "notifications" && notifications > 0 && (
+                    <span className="absolute -right-3 -top-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                      {notifications}
+                    </span>
+                  )}
+                  {tile.key === "languages" ? (
+                    <span className="text-gray-300 text-sm">{language}</span>
+                  ) : null}
+                  <ChevronRight className="text-gray-300 text-lg ml-2" />
+                </div>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Service Center */}
+        <div className="p-6 bg-[#595959] rounded-xl shadow-lg">
+          <h2 className="text-xl font-bold text-white mb-4">Service Center</h2>
+          <div className="grid grid-cols-3 gap-4">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center justify-center rounded-lg cursor-pointer transition"
+              >
+                {service.icon}
+                <p className="text-xs text-white mt-2 text-center">
+                  {service.title}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Logout Button */}
+        <button className="w-full flex justify-center my-4 border-2 border-gray-400 rounded-2xl py-1 text-gray-400">
+          <LogOut /> <span className="ml-1">Log Out</span>
+        </button>
       </div>
     </div>
   );

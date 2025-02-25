@@ -11,6 +11,7 @@ import Promotions from "./pages/Promotions";
 import UserWallet from "./pages/user/UserWallet";
 import UserProfile from "./pages/user/UserProfile";
 import Notifications from "./pages/Notifications";
+import AgentPage from "./pages/AgentPage";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/wallet" element={<UserWallet />} />
             <Route path="/user-me" element={<UserProfile />} />
             <Route path="/user-message" element={<Notifications />} />
+            <Route path="/agent" element={<AgentPage />} />
             {/* </Route> */}
           </Routes>
         </div>

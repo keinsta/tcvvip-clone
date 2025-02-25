@@ -16,7 +16,9 @@ const Footer = () => {
 
       {/* Central Agent Icon (Larger & Raised) */}
       <div className="flex flex-col items-center absolute -top-6 bg-white w-16 h-16 pt-2 rounded-full border-t-2">
-        <FooterItem icon={<Users size={30} />} label="Agent" isCentral />
+        <Link to={"/agent"}>
+          <FooterItem icon={<Users size={30} />} label="Agent" isCentral />
+        </Link>
       </div>
 
       <div className="flex justify-around  w-[40%]">
