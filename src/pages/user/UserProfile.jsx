@@ -20,8 +20,10 @@ import {
   LogOut,
 } from "lucide-react";
 import useUserStore from "../../store/userStore";
+import useAuthStore from "../../store/authStore";
 import safe_banner from "../../assets/images/banners/safe_banner.png";
 import { history_icons } from "../../assets/icons/wallet-icons";
+import axiosInstance from "../../config/axiosInstance";
 
 const settings = [
   {
@@ -77,6 +79,18 @@ const UserProfile = () => {
   };
 
   const uid = "134ds234";
+
+  const handleLogout = async () => {
+    await axiosInstance
+      .get("/auth/logout")
+      .then((response) => {
+        alert(response.data.message);
+        useAuthStore.getState().logout();
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(uid);
@@ -245,7 +259,10 @@ const UserProfile = () => {
         </div>
 
         {/* Logout Button */}
-        <button className="w-full flex justify-center my-4 border-2 border-gray-400 rounded-2xl py-1 text-gray-400">
+        <button
+          onClick={handleLogout}
+          className="w-full flex justify-center my-4 border-2 border-gray-400 rounded-2xl py-1 text-gray-400"
+        >
           <LogOut /> <span className="ml-1">Log Out</span>
         </button>
       </div>
