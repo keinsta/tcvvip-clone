@@ -27,13 +27,13 @@ const App = () => {
             <Route path="/register" element={<Register />} />
 
             {/* Private Routes */}
-            {/* <Route element={<PrivateRoute />}> */}
-            <Route path="/promotion" element={<Promotions />} />
-            <Route path="/wallet" element={<UserWallet />} />
-            <Route path="/user-me" element={<UserProfile />} />
-            <Route path="/user-message" element={<Notifications />} />
-            <Route path="/agent" element={<AgentPage />} />
-            {/* </Route> */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/promotion" element={<Promotions />} />
+              <Route path="/wallet" element={<UserWallet />} />
+              <Route path="/user-me" element={<UserProfile />} />
+              <Route path="/user-message" element={<Notifications />} />
+              <Route path="/agent" element={<AgentPage />} />
+            </Route>
           </Routes>
         </div>
 
