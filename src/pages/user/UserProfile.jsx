@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, use } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Clipboard,
   RefreshCcw,
@@ -19,36 +20,44 @@ import {
   Info,
   LogOut,
 } from "lucide-react";
-import useUserStore from "../../store/userStore";
 import useAuthStore from "../../store/authStore";
 import safe_banner from "../../assets/images/banners/safe_banner.png";
 import { history_icons } from "../../assets/icons/wallet-icons";
 import axiosInstance from "../../config/axiosInstance";
+import { avatars } from "../../assets/images/avatar/avatar";
 
 const settings = [
   {
     icon: <Bell className="w-7 h-7 text-yellow-500" />,
     title: "Notifications",
     subtitle: "My Betting History",
+    link_to: "/user-message",
   },
   {
     icon: <Gift className="w-7 h-7 text-yellow-500" />,
     title: "Gifts",
     subtitle: "My Transaction History",
+    link_to: "/user-message",
   },
   {
     icon: <BarChart3 className="w-7 h-7 text-yellow-500" />,
     title: "Game Statistics",
     subtitle: "My Deposit History",
+    link_to: "/user-message",
   },
   {
     icon: <Languages className="w-7 h-7 text-yellow-500" />,
     title: "Languages",
     subtitle: "My Withdraw History",
+    link_to: "/user-message",
   },
 ];
 const services = [
-  { icon: <Settings className="w-7 h-7 text-yellow-500" />, title: "Settings" },
+  {
+    icon: <Settings className="w-7 h-7 text-yellow-500" />,
+    title: "Settings",
+    to_link: "/user-me/settings",
+  },
   {
     icon: <MessageSquare className="w-7 h-7 text-yellow-500" />,
     title: "Feedback",
@@ -69,16 +78,13 @@ const services = [
 ];
 
 const UserProfile = () => {
+  const { user, fetchUser } = useAuthStore();
+  const memberId = user?.uid?.replace("MEMBER-", "") || "";
+  const memberAvatar = user?.avatar;
+  const navigate = useNavigate();
+  const [selectedAvatar, setSelectedAvatar] = useState("");
+  const [lastLogin, setLastLogin] = useState([]);
   const [copied, setCopied] = useState(false);
-  const [balance, setBalance] = useState(1200); // Dummy balance
-  const { notifications, language, markNotificationsAsRead } = useUserStore(); // Zustand store
-
-  const refreshBalance = () => {
-    // Simulating balance refresh
-    setBalance(balance + Math.floor(Math.random() * 100));
-  };
-
-  const uid = "134ds234";
 
   const handleLogout = async () => {
     await axiosInstance
@@ -93,32 +99,69 @@ const UserProfile = () => {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(uid);
+    navigator.clipboard.writeText(memberId);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const formatDateTime = (isoString) => {
+    if (!isoString) return "N/A";
+    const date = new Date(isoString);
+
+    // Convert to YYYY-MM-DD HH:mm:ss format
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure two digits
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const sortedLogins = user?.loginHistory.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
+    if (sortedLogins?.length > 0) {
+      setLastLogin(sortedLogins[0]);
+    }
+  }, [user]);
+
+  // Finding the avatar whenever memberAvatar changes
+  useEffect(() => {
+    const foundAvatar = avatars.find((avatar) => avatar.name === memberAvatar);
+    setSelectedAvatar(foundAvatar);
+  }, [memberAvatar]);
+
   return (
     <div className="min-h-screen mb-24 flex flex-col items-center">
       <div className="w-full bg-gradient-yellow-headers p-4 pb-16 rounded-b-3xl">
         {/* Profile Header */}
         <div className="flex items-center gap-4 p-4 rounded-lg shadow-md">
           {/* Avatar */}
-          <div className="w-16 h-16">
+          <div className="w-16 h-16" onClick={() => navigate("/change-avatar")}>
             <img
-              src="https://randomuser.me/api/portraits/men/75.jpg"
+              src={selectedAvatar?.avatar}
               alt="Avatar"
-              className="w-full h-full rounded-full"
+              className="w-full h-full rounded-full cursor-pointer"
             />
           </div>
 
           {/* Member Info */}
           <div className="flex flex-col">
             <div className="flex items-center gap-2 text-yellow-800">
-              <span className="font-semibold">Member-{uid}</span>
+              <span className="font-semibold">
+                {user?.nickName ? user?.nickName : user?.uid}
+              </span>
             </div>
             <div className="flex items-center text-xs text-yellow-800 gap-1">
               <span className="font-semibold">UID |</span>
-              <span className="">{uid}</span>
+              <span className="">{memberId}</span>
               <button onClick={copyToClipboard} className="text-yellow-800 ">
                 <Clipboard size={14} />
               </button>
@@ -127,22 +170,23 @@ const UserProfile = () => {
               )}
             </div>
             <div className="text-yellow-800 text-xs">
-              <span className="font-semibold">Last Login:</span> 2025-02-21
-              14:30:00
+              <span className="font-semibold">Last Login:</span>{" "}
+              {lastLogin?.date ? formatDateTime(lastLogin.date) : "N/A"}
             </div>
           </div>
         </div>
       </div>
       <div className="w-full px-4 relative top-[-50px]">
         {/* Total Balance Component */}
-        <div className=" bg-app-bg p-5 rounded-2xl shadow-md shadow-gray-800 space-y-4 ">
+        <div className=" bg-app-bg p-5 rounded-2xl shadow-md shadow-gray-800 space-y-4">
           {/* Total Balance */}
-          <div className="flex justify-between items-center  p-3 rounded-lg">
+          <div className="flex justify-between items-center p-3 rounded-lg">
             <h3 className="text-lg font-bold text-white">
-              Total Balance: <span className="text-yellow-400">${balance}</span>
+              Total Balance:{" "}
+              <span className="text-yellow-400">₹{user?.totalBalance}</span>
             </h3>
             <button
-              onClick={refreshBalance}
+              onClick={fetchUser}
               className="p-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600"
             >
               <RefreshCcw className="w-5 h-5" />
@@ -151,14 +195,18 @@ const UserProfile = () => {
 
           {/* Wallet, Deposit, Withdraw, SVIP Sections */}
           <div className="grid grid-cols-4 gap-5 text-center">
-            <div className="flex flex-col items-center cursor-pointer">
-              <Wallet className="w-7 h-7 mb-1 text-yellow-500" />
-              <p className="text-sm text-white">Wallet</p>
-            </div>
-            <div className="flex flex-col items-center cursor-pointer">
-              <Download className="w-7 h-7 mb-1 text-yellow-500" />
-              <p className="text-sm text-white">Deposit</p>
-            </div>
+            <Link to={"/wallet"}>
+              <div className="flex flex-col items-center cursor-pointer">
+                <Wallet className="w-7 h-7 mb-1 text-yellow-500" />
+                <p className="text-sm text-white">Wallet</p>
+              </div>
+            </Link>
+            <Link to={"/deposit"}>
+              <div className="flex flex-col items-center cursor-pointer">
+                <Download className="w-7 h-7 mb-1 text-yellow-500" />
+                <p className="text-sm text-white">Deposit</p>
+              </div>
+            </Link>
             <div className="flex flex-col items-center cursor-pointer">
               <Upload className="w-7 h-7 mb-1 text-yellow-500" />
               <p className="text-sm text-white">Withdraw</p>
@@ -209,33 +257,21 @@ const UserProfile = () => {
         <div className="rounded-2xl shadow-md my-4">
           <div className="grid grid-cols-1 gap-1">
             {settings.map((tile, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4 bg-[#595959] rounded-lg cursor-pointer hover:bg-[#4a4a4a] transition-all"
-                onClick={() =>
-                  tile.key === "notifications" && markNotificationsAsRead()
-                }
-              >
-                <div className="flex items-center space-x-4">
-                  <span>{tile.icon}</span>
-                  <h3 className="text-white font-semibold text-sm">
-                    {tile.title}
-                  </h3>
-                </div>
+              <Link key={index} to={tile.link_to}>
+                <div className="flex items-center justify-between p-4 bg-[#595959] rounded-lg cursor-pointer hover:bg-[#4a4a4a] transition-all">
+                  <div className="flex items-center space-x-4">
+                    <span>{tile.icon}</span>
+                    <h3 className="text-white font-semibold text-sm">
+                      {tile.title}
+                    </h3>
+                  </div>
 
-                {/* Right Arrow and Badge for Notifications */}
-                <div className="relative flex items-center">
-                  {tile.key === "notifications" && notifications > 0 && (
-                    <span className="absolute -right-3 -top-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                      {notifications}
-                    </span>
-                  )}
-                  {tile.key === "languages" ? (
-                    <span className="text-gray-300 text-sm">{language}</span>
-                  ) : null}
-                  <ChevronRight className="text-gray-300 text-lg ml-2" />
+                  {/* Right Arrow and Badge for Notifications */}
+                  <div className="relative flex items-center">
+                    <ChevronRight className="text-gray-300 text-lg ml-2" />
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -245,15 +281,14 @@ const UserProfile = () => {
           <h2 className="text-xl font-bold text-white mb-4">Service Center</h2>
           <div className="grid grid-cols-3 gap-4">
             {services.map((service, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center justify-center rounded-lg cursor-pointer transition"
-              >
-                {service.icon}
-                <p className="text-xs text-white mt-2 text-center">
-                  {service.title}
-                </p>
-              </div>
+              <Link key={index} to={service.to_link}>
+                <div className="flex flex-col items-center justify-center rounded-lg cursor-pointer transition">
+                  {service.icon}
+                  <p className="text-xs text-white mt-2 text-center">
+                    {service.title}
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

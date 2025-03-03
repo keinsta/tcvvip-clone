@@ -213,19 +213,6 @@ const Register = () => {
         >
           Login
         </button>
-
-        <div>
-          <div className="w-full flex justify-between items-center mt-6">
-            <div className="flex items-center cursor-pointer">
-              <Lock size={20} className="text-gray-200 mr-2" />
-              <span className="text-sm text-gray-200">Forget Password</span>
-            </div>
-            <div className="flex items-center cursor-pointer">
-              <Shield size={20} className="text-gray-200 mr-2" />
-              <span className="text-sm text-gray-200">Customer Support</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

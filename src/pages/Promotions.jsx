@@ -13,7 +13,7 @@ const Promotions = () => {
 
   return (
     <div className="w-full max-w-[500px] mx-auto mb-24">
-      <div className="w-full bg-gradient-yellow-headers  pb-3">
+      <div className="w-full bg-gradient-yellow-headers pb-3">
         <div className="w-full h-[54px] flex items-center justify-between px-4">
           <div className="flex-shrink-0">
             <ArrowLeft

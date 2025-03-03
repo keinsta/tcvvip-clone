@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, Phone, Mail, Lock, Shield } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance";
 import useAuthStore from "../../store/authStore";
 
@@ -66,15 +66,13 @@ const Login = () => {
         `/auth/login?authBy=${authBy}`,
         payload
       ); // Adjusted to include authBy in query
-      console.log("API Response:", response.data);
+      // console.log("API Response:", response.data);
 
       if (response.data.success) {
         // console.log("User:", response.data.user);
         // console.log("Token:", response.data.token);
 
         alert("Login successful!");
-        // Save token if needed
-        // localStorage.setItem("authToken", response.data.token);
 
         // Update Zustand state immediately to avoid reload
         useAuthStore.getState().login(response.data.token);
@@ -246,10 +244,12 @@ const Login = () => {
 
         <div>
           <div className="w-full flex justify-between items-center mt-6">
-            <div className="flex items-center cursor-pointer">
-              <Lock size={20} className="text-gray-200 mr-2" />
-              <span className="text-sm text-gray-200">Forget Password</span>
-            </div>
+            <Link to={"/forgot-password"}>
+              <div className="flex items-center cursor-pointer">
+                <Lock size={20} className="text-gray-200 mr-2" />
+                <span className="text-sm text-gray-200">Forget Password</span>
+              </div>
+            </Link>
             <div className="flex items-center cursor-pointer">
               <Shield size={20} className="text-gray-200 mr-2" />
               <span className="text-sm text-gray-200">Customer Support</span>
