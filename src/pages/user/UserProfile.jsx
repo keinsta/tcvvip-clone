@@ -207,48 +207,53 @@ const UserProfile = () => {
                 <p className="text-sm text-white">Deposit</p>
               </div>
             </Link>
-            <div className="flex flex-col items-center cursor-pointer">
-              <Upload className="w-7 h-7 mb-1 text-yellow-500" />
-              <p className="text-sm text-white">Withdraw</p>
-            </div>
-            <div className="flex flex-col items-center cursor-pointer">
-              <Star className="w-7 h-7 mb-1 text-yellow-500" />
-              <p className="text-sm text-white">SVIP</p>
-            </div>
+            <Link to={"/withdraw"}>
+              <div className="flex flex-col items-center cursor-pointer">
+                <Upload className="w-7 h-7 mb-1 text-yellow-500" />
+                <p className="text-sm text-white">Withdraw</p>
+              </div>
+            </Link>
+            <Link to={"/svip"}>
+              <div className="flex flex-col items-center cursor-pointer">
+                <Star className="w-7 h-7 mb-1 text-yellow-500" />
+                <p className="text-sm text-white">SVIP</p>
+              </div>
+            </Link>
           </div>
         </div>
 
         {/* Banner Image */}
-        <img
-          src={safe_banner}
-          alt="Safe Banner"
-          className="cursor-pointer my-4"
-        />
+        <Link to={"/safe-gift"}>
+          <img
+            src={safe_banner}
+            alt="Safe Banner"
+            className="cursor-pointer my-4"
+          />
+        </Link>
 
         {/* Transaction History */}
         <div className=" rounded-2xl shadow-md">
           <div className="grid grid-cols-2 gap-4">
             {history_icons.map((section, index) => (
-              <div
-                key={index}
-                className="flex items-center p-2 bg-[#595959] rounded-lg space-x-2 cursor-pointer"
-              >
-                <div className="w-10 h-10 flex-shrink-0">
-                  <img
-                    src={section.icon}
-                    alt={section.title}
-                    className="w-full h-full object-contain"
-                  />
+              <Link to={section.link_to} key={index}>
+                <div className="flex items-center p-2 bg-[#595959] rounded-lg space-x-2 cursor-pointer">
+                  <div className="w-10 h-10 flex-shrink-0">
+                    <img
+                      src={section.icon}
+                      alt={section.title}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">
+                      {section.title}
+                    </h3>
+                    <p className="text-[10px] text-gray-200">
+                      {section.subTitle}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-white">
-                    {section.title}
-                  </h3>
-                  <p className="text-[10px] text-gray-200">
-                    {section.subTitle}
-                  </p>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

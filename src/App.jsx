@@ -14,10 +14,17 @@ import AgentPage from "./pages/AgentPage";
 import UserProfile from "./pages/user/UserProfile";
 import UserWallet from "./pages/user/UserWallet";
 import Deposit from "./pages/user/Deposit";
+import Withdraw from "./pages/user/Withdraw";
+import SVIP from "./pages/user/SVIP";
 import Avatar from "./pages/user/Avatar";
 import Settings from "./pages/user/Settings";
 import ForgotPassword from "./pages/auth/ForgetPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
+import Gift from "./pages/Gift";
+import BetHistory from "./pages/history/BetHistory";
+import TransactionHistory from "./pages/history/TransactionHistory";
+import DepositHistory from "./pages/history/DepositHistory";
+import WithdrawHistory from "./pages/history/WithdrawHistory";
 
 const App = () => {
   const { fetchUser } = useAuthStore();
@@ -50,6 +57,16 @@ const App = () => {
               <Route path="/agent" element={<AgentPage />} />
               <Route path="/wallet" element={<UserWallet />} />
               <Route path="/deposit" element={<Deposit />} />
+              <Route path="/withdraw" element={<Withdraw />} />
+              <Route path="/svip" element={<SVIP />} />
+              <Route path="/safe-gift" element={<Gift />} />
+              <Route path="/bet-history" element={<BetHistory />} />
+              <Route
+                path="/transaction-history"
+                element={<TransactionHistory />}
+              />
+              <Route path="/deposit-history" element={<DepositHistory />} />
+              <Route path="/withdraw-history" element={<WithdrawHistory />} />
             </Route>
           </Routes>
         </div>

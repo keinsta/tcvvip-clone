@@ -15,12 +15,28 @@ export const icons = [
 ];
 
 export const history_icons = [
-  { icon: bet, title: "Bet", subTitle: "My Betting History" },
+  {
+    icon: bet,
+    title: "Bet",
+    subTitle: "My Betting History",
+    link_to: "/bet-history",
+  },
   {
     icon: transaction,
     title: "Transaction",
     subTitle: "My Transaction History",
+    link_to: "/transaction-history",
   },
-  { icon: depositHistory, title: "Deposit", subTitle: "My Deposit History" },
-  { icon: withdrawHistory, title: "Withdraw", subTitle: "My Withdraw History" },
+  {
+    icon: depositHistory,
+    title: "Deposit",
+    subTitle: "My Deposit History",
+    link_to: "/deposit-history",
+  },
+  {
+    icon: withdrawHistory,
+    title: "Withdraw",
+    subTitle: "My Withdraw History",
+    link_to: "/withdraw-history",
+  },
 ];
