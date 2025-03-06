@@ -27,7 +27,7 @@ const WithdrawHistory = () => {
       <div className="w-full h-[54px] bg-gradient-yellow-headers flex items-center justify-between px-4 shadow-md text-white">
         <div className="flex justify-center">
           <ArrowLeft
-            className="mr-4 cursor-pointer"
+            className="mr-2 cursor-pointer"
             onClick={() => navigate(-1)}
           />
           <span className="text-lg">Withdraw History</span>

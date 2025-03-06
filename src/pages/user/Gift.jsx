@@ -1,0 +1,124 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuthStore from "../../store/authStore";
+import { ArrowLeft, History, Gift as GiftIcon } from "lucide-react";
+import safe_money from "../../assets/images/gift/gift.png";
+
+const Gift = () => {
+  const { user } = useAuthStore();
+  const navigate = useNavigate();
+  const [giftCode, setGiftCode] = useState("");
+  const [giftHistory, setGiftHistory] = useState([
+    { code: "WELCOME100", date: "2025-02-15", status: "Redeemed" },
+    { code: "BONUS50", date: "2025-01-10", status: "Expired" },
+  ]);
+
+  const handleRedeem = () => {
+    if (giftCode.trim() === "") {
+      alert("Please enter a valid gift code!");
+      return;
+    }
+    setGiftHistory([
+      {
+        code: giftCode,
+        date: new Date().toISOString().split("T")[0],
+        status: "Redeemed",
+      },
+      ...giftHistory,
+    ]);
+    setGiftCode("");
+    alert("Gift code redeemed successfully!");
+  };
+
+  return (
+    <div className="mb-28 min-h-screen flex flex-col items-center">
+      {/* Header */}
+      <div className="w-full h-[54px] bg-gradient-yellow-headers flex items-center justify-between px-4 shadow-md text-white">
+        <div className="flex justify-center">
+          <ArrowLeft
+            className="mr-2 cursor-pointer"
+            onClick={() => navigate(-1)}
+          />
+          <span className="text-lg">Gifts</span>
+        </div>
+        <img src={safe_money} alt="Safe Banner" className="w-28" />
+      </div>
+
+      {/* Gift Message */}
+      <div className="w-full max-w-md mt-6 p-5 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg shadow-lg text-center text-white">
+        <GiftIcon className="w-12 h-12 mx-auto mb-2" />
+        <h2 className="text-xl font-semibold">Hi, We have a gift for you!</h2>
+        <p className="text-sm opacity-90">
+          Enter the code below to claim your reward.
+        </p>
+      </div>
+
+      {/* Gift Code Input */}
+      <div className="w-full max-w-md mt-6">
+        <label className="block text-gray-700 font-medium mb-2">
+          Please enter the gift code below
+        </label>
+        <input
+          type="text"
+          placeholder="Enter gift code..."
+          value={giftCode}
+          onChange={(e) => setGiftCode(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400 outline-none shadow-sm"
+        />
+        <button
+          onClick={handleRedeem}
+          className="w-full mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded-md shadow-lg transition"
+        >
+          Redeem Gift
+        </button>
+      </div>
+
+      {/* Gift History Table */}
+      <div className="w-full max-w-md mt-8">
+        <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+          <History className="w-5 h-5 mr-2" />
+          Gift History
+        </h3>
+        {giftHistory.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-gray-200 shadow-md bg-white rounded-lg overflow-hidden">
+              <thead className="bg-yellow-500 text-white">
+                <tr>
+                  <th className="py-2 px-4 text-left">Gift Code</th>
+                  <th className="py-2 px-4 text-left">Date</th>
+                  <th className="py-2 px-4 text-left">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {giftHistory.map((gift, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-gray-200 hover:bg-gray-100"
+                  >
+                    <td className="py-2 px-4">{gift.code}</td>
+                    <td className="py-2 px-4 text-gray-500">{gift.date}</td>
+                    <td
+                      className={`py-2 px-4 font-semibold ${
+                        gift.status === "Redeemed"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {gift.status}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-gray-500 text-center bg-white p-4 rounded-lg shadow">
+            No gift collected yet.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Gift;

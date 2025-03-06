@@ -23,12 +23,12 @@ const Promotions = () => {
             />
           </div>
 
-          <div className="flex-shrink-0 text-white">
+          {/* <div className="flex-shrink-0 text-white">
             <select className="bg-transparent border-none text-white">
               <option value="en">English</option>
               <option value="ur">Urdu</option>
             </select>
-          </div>
+          </div> */}
         </div>
 
         <div className="w-full px-4">

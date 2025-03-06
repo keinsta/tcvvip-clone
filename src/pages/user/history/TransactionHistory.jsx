@@ -1,9 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { ArrowLeft, ChevronDown } from "lucide-react";
+import { ArrowLeft, Calendar, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { depositHistory } from "./dummyData";
+import { transactions } from "./dummyData";
 
-const transactionTypes = ["All", "Pending Payment", "Completed", "Cancelled"];
+const transactionTypes = [
+  "All",
+  "Deposit",
+  "Deposit Cancelled",
+  "Commission transferred",
+  "Bet",
+  "Cancel bet",
+  "Bet rebate",
+  "Withdrawal",
+  "Withdrawal cancellation",
+  "Win",
+  "Re-settle deduction, winning recovery",
+  "Manual fund addition",
+  "Manual fund deduction",
+  "Salary addition",
+  "Salary deduction",
+  "Bonus fund addition",
+  "Bonus fund deduction",
+  "Deposit bonus",
+  "Registration bonus",
+  "First deposit bonus",
+  "Sign-in bonus",
+  "Red envelope",
+  "Payment level award",
+  "Invitation reward",
+  "Roulette reward",
+  "SVIP upgrade reward",
+  "SVIP cycle reward",
+  "Betting rebate",
+  "Task reward",
+  "Agent Tasks reward",
+  "Invitation first deposit reward",
+  "Second deposit bonus",
+  "Third deposit bonus",
+  "Invitation second deposit reward",
+  "Invitation third deposit reward",
+  "Buy benefit card",
+  "Claim daily benefit card reward",
+  "Game moved in",
+  "Game moved out",
+  "Safe deposit",
+  "Safe withdrawal",
+  "Social media share award",
+];
 
 const TransactionHistory = () => {
   const navigate = useNavigate();
@@ -11,9 +54,13 @@ const TransactionHistory = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const filteredTransactions = depositHistory.filter(
-    (transaction) => selectedType === "All" || transaction.type === selectedType
+  const filteredTransactions = transactions.filter((transaction) =>
+    selectedType === "All" ? true : transaction.type === selectedType
   );
+
+  // useEffect(() => {
+  //   console.log(filteredTransactions);
+  // }, [filteredTransactions]);
 
   useEffect(() => {
     console.log(selectedDate);
@@ -25,10 +72,10 @@ const TransactionHistory = () => {
       <div className="w-full h-[54px] bg-gradient-yellow-headers flex items-center justify-between px-4 shadow-md text-white">
         <div className="flex justify-center">
           <ArrowLeft
-            className="mr-4 cursor-pointer"
+            className="mr-2 cursor-pointer"
             onClick={() => navigate(-1)}
           />
-          <span className="text-lg">Deposit History</span>
+          <span className="text-lg">Transaction History</span>
         </div>
       </div>
 
@@ -76,7 +123,6 @@ const TransactionHistory = () => {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-yellow-500 text-gray-900 text-sm md:text-base font-semibold border-b border-gray-300">
-              <th className="p-3 whitespace-nowrap">Order #</th>
               <th className="p-3 whitespace-nowrap">Type</th>
               <th className="p-3 whitespace-nowrap">Time</th>
               <th className="p-3 whitespace-nowrap">Amount</th>
@@ -85,7 +131,7 @@ const TransactionHistory = () => {
           <tbody>
             {filteredTransactions.length > 0 ? (
               filteredTransactions.map((transaction, index) => (
-                <tr key={index} className="text-sm md:text-base transition ">
+                <tr key={index} className="text-sm md:text-base transition">
                   <td className="p-3 text-white break-words">
                     {transaction.type}
                   </td>
@@ -95,15 +141,12 @@ const TransactionHistory = () => {
                   <td className="p-3 text-green-400 font-semibold break-words">
                     {transaction.amount}
                   </td>
-                  <td className="p-1 text-xs text-gray-300 font-medium ">
-                    {transaction.orderNumber}
-                  </td>
                 </tr>
               ))
             ) : (
               <tr>
                 <td
-                  colSpan="4"
+                  colSpan="3"
                   className="p-4 text-center text-gray-400 font-semibold"
                 >
                   No Transactions Available

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../store/authStore";
+import useAuthStore from "../../store/authStore";
 
 import { ArrowLeft, History, FolderOpen } from "lucide-react";
-import safe_money from "../assets/images/safe/savemoney_banner.png";
+import safe_money from "../../assets/images/safe/savemoney_banner.png";
 
-const Gift = () => {
+const Safe = () => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("deposit");
@@ -178,4 +178,4 @@ const Gift = () => {
   );
 };
 
-export default Gift;
+export default Safe;

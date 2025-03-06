@@ -20,11 +20,17 @@ import Avatar from "./pages/user/Avatar";
 import Settings from "./pages/user/Settings";
 import ForgotPassword from "./pages/auth/ForgetPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
-import Gift from "./pages/Gift";
-import BetHistory from "./pages/history/BetHistory";
-import TransactionHistory from "./pages/history/TransactionHistory";
-import DepositHistory from "./pages/history/DepositHistory";
-import WithdrawHistory from "./pages/history/WithdrawHistory";
+import BetHistory from "./pages/user/history/BetHistory";
+import TransactionHistory from "./pages/user/history/TransactionHistory";
+import DepositHistory from "./pages/user/history/DepositHistory";
+import WithdrawHistory from "./pages/user/history/WithdrawHistory";
+import Safe from "./pages/user/Safe";
+import Gift from "./pages/user/Gift";
+import GamesStats from "./pages/user/GamesStats";
+import Feedback from "./pages/user/Feedback";
+import Announcements from "./pages/user/Announcements";
+import AboutUs from "./pages/AboutUs";
+import CustomerService from "./pages/CustomerService";
 
 const App = () => {
   const { fetchUser } = useAuthStore();
@@ -59,8 +65,14 @@ const App = () => {
               <Route path="/deposit" element={<Deposit />} />
               <Route path="/withdraw" element={<Withdraw />} />
               <Route path="/svip" element={<SVIP />} />
-              <Route path="/safe-gift" element={<Gift />} />
               <Route path="/bet-history" element={<BetHistory />} />
+              <Route path="/safe-box" element={<Safe />} />
+              <Route path="/user-redeem-gift" element={<Gift />} />
+              <Route path="/game-statistics" element={<GamesStats />} />
+              <Route path="/user-feedback" element={<Feedback />} />
+              <Route path="/user/announcements" element={<Announcements />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/customer-service" element={<CustomerService />} />
               <Route
                 path="/transaction-history"
                 element={<TransactionHistory />}

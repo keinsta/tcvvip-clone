@@ -37,20 +37,20 @@ const settings = [
     icon: <Gift className="w-7 h-7 text-yellow-500" />,
     title: "Gifts",
     subtitle: "My Transaction History",
-    link_to: "/user-message",
+    link_to: "/user-redeem-gift",
   },
   {
     icon: <BarChart3 className="w-7 h-7 text-yellow-500" />,
     title: "Game Statistics",
     subtitle: "My Deposit History",
-    link_to: "/user-message",
+    link_to: "/game-statistics",
   },
-  {
-    icon: <Languages className="w-7 h-7 text-yellow-500" />,
-    title: "Languages",
-    subtitle: "My Withdraw History",
-    link_to: "/user-message",
-  },
+  // {
+  //   icon: <Languages className="w-7 h-7 text-yellow-500" />,
+  //   title: "Languages",
+  //   subtitle: "My Withdraw History",
+  //   link_to: "/user-message",
+  // },
 ];
 const services = [
   {
@@ -61,20 +61,27 @@ const services = [
   {
     icon: <MessageSquare className="w-7 h-7 text-yellow-500" />,
     title: "Feedback",
+    to_link: "/user-feedback",
   },
   {
     icon: <Megaphone className="w-7 h-7 text-yellow-500" />,
     title: "Announcement",
+    to_link: "/user/announcements",
   },
   {
     icon: <Headphones className="w-7 h-7 text-yellow-500" />,
     title: "Customer Service",
+    to_link: "/customer-service",
   },
   {
     icon: <BookOpen className="w-7 h-7 text-yellow-500" />,
     title: "Beginner's Guide",
   },
-  { icon: <Info className="w-7 h-7 text-yellow-500" />, title: "About Us" },
+  {
+    icon: <Info className="w-7 h-7 text-yellow-500" />,
+    title: "About Us",
+    to_link: "/about-us",
+  },
 ];
 
 const UserProfile = () => {
@@ -223,7 +230,7 @@ const UserProfile = () => {
         </div>
 
         {/* Banner Image */}
-        <Link to={"/safe-gift"}>
+        <Link to={"/safe-box"}>
           <img
             src={safe_banner}
             alt="Safe Banner"
