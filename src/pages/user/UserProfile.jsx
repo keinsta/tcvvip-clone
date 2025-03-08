@@ -66,7 +66,7 @@ const services = [
   {
     icon: <Megaphone className="w-7 h-7 text-yellow-500" />,
     title: "Announcement",
-    to_link: "/user/announcements",
+    to_link: "/user-announcements",
   },
   {
     icon: <Headphones className="w-7 h-7 text-yellow-500" />,

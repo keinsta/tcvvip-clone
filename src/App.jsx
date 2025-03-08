@@ -14,6 +14,7 @@ import AgentPage from "./pages/AgentPage";
 import UserProfile from "./pages/user/UserProfile";
 import UserWallet from "./pages/user/UserWallet";
 import Deposit from "./pages/user/Deposit";
+import DepositBonuses from "./pages/DepositBonuses";
 import Withdraw from "./pages/user/Withdraw";
 import SVIP from "./pages/user/SVIP";
 import Avatar from "./pages/user/Avatar";
@@ -26,11 +27,16 @@ import DepositHistory from "./pages/user/history/DepositHistory";
 import WithdrawHistory from "./pages/user/history/WithdrawHistory";
 import Safe from "./pages/user/Safe";
 import Gift from "./pages/user/Gift";
+import Tasks from "./pages/user/Tasks/Tasks";
+import ClaimHistory from "./pages/user/Tasks/ClaimHistory";
 import GamesStats from "./pages/user/GamesStats";
 import Feedback from "./pages/user/Feedback";
 import Announcements from "./pages/user/Announcements";
 import AboutUs from "./pages/AboutUs";
 import CustomerService from "./pages/CustomerService";
+import AppDownloadReward from "./pages/AppDownloadReward";
+import AttendanceBonus from "./pages/user/DailyAttendanceRewards";
+import PromotionsDetails from "./pages/PromotionsDetails";
 
 const App = () => {
   const { fetchUser } = useAuthStore();
@@ -56,6 +62,10 @@ const App = () => {
             {/* Private Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/promotion" element={<Promotions />} />
+              <Route
+                path="/promotions-details/:title/:image/:details"
+                element={<PromotionsDetails />}
+              />
               <Route path="/user-me" element={<UserProfile />} />
               <Route path="/user-me/settings" element={<Settings />} />
               <Route path="/change-avatar" element={<Avatar />} />
@@ -70,7 +80,24 @@ const App = () => {
               <Route path="/user-redeem-gift" element={<Gift />} />
               <Route path="/game-statistics" element={<GamesStats />} />
               <Route path="/user-feedback" element={<Feedback />} />
-              <Route path="/user/announcements" element={<Announcements />} />
+              <Route path="/user-announcements" element={<Announcements />} />
+              <Route path="/user-tasks" element={<Tasks />} />
+              <Route
+                path="/user-tasks/claim-history"
+                element={<ClaimHistory />}
+              />
+              <Route
+                path="/promotion/recharge-awards"
+                element={<DepositBonuses />}
+              />
+              <Route
+                path="/promotion/app-download-rewards"
+                element={<AppDownloadReward />}
+              />
+              <Route
+                path="/daily-attendance-reward"
+                element={<AttendanceBonus />}
+              />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/customer-service" element={<CustomerService />} />
               <Route

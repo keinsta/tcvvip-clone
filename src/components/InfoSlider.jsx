@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Volume2 } from "lucide-react"; // Import the speaker icon from lucide-react
 
 const InfoContainer = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full h-[30px] my-2 pl-2 pr-1 flex items-center overflow-hidden relative bg-[#595959] rounded-full">
       {/* Speaker Icon (Left) */}
@@ -22,7 +24,10 @@ const InfoContainer = () => {
       </div>
 
       {/* Button with Fire Icon (Right) */}
-      <div className="flex items-center justify-center bg-yellow-600 text-white rounded-full p-1 ml-auto cursor-pointer">
+      <div
+        onClick={() => navigate("/user-announcements")}
+        className="flex items-center justify-center bg-yellow-600 text-white rounded-full p-1 ml-auto cursor-pointer"
+      >
         {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
