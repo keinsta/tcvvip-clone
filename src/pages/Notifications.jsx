@@ -72,27 +72,32 @@ const Notifications = () => {
                   <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
                 )}
               </div>
-              <div className="flex flex-col w-full">
-                <div className="flex justify-between w-full">
+              <div className="w-full flex justify-between">
+                <div className="flex flex-col">
                   <h3 className="text-xs lg:text-sm font-semibold">
                     {category.label}
                   </h3>
-                  {unreadCounts[category.name] > 0 && (
-                    <button
-                      onClick={markAllAsRead}
-                      className="text-xs text-blue-600 hover:underline"
-                    >
-                      Mark all as read
-                    </button>
-                  )}
+
+                  {notifications
+                    .filter((n) => n.category === category.name && !n.isRead)
+                    .sort(
+                      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                    ) // Sort by date (latest first)
+                    .slice(0, 1) // Get only the latest notification
+                    .map((n) => (
+                      <p key={n._id} className="text-xs text-red-600 mt-1">
+                        {n.title}
+                      </p>
+                    ))}
                 </div>
-                {notifications
-                  .filter((n) => n.category === category.name && !n.isRead)
-                  .map((n) => (
-                    <p key={n._id} className="text-xs text-red-600 mt-1">
-                      {n.title}
-                    </p>
-                  ))}
+                {unreadCounts[category.name] > 0 && (
+                  <button
+                    onClick={markAllAsRead}
+                    className="p-1 px-2 text-xs text-white bg-yellow-500"
+                  >
+                    Mark all as read
+                  </button>
+                )}
               </div>
             </div>
           ))}
@@ -117,7 +122,7 @@ const Notifications = () => {
                 {!notification.isRead && (
                   <button
                     onClick={() => markAsRead(notification._id)}
-                    className="text-xs text-blue-600 hover:underline"
+                    className="text-xs text-yellow-600 font-semibold"
                   >
                     Mark as read
                   </button>

@@ -8,11 +8,12 @@ export const images = [
     name: "UPI x APPS",
     image: upi_icon,
     alt: "upi_icon",
+    bonus: 3, // Bonus moved to parent
     details: [
       {
         name: "UPIPAY x APPS",
         range: "100-50000",
-        bonus: "+3% BONUS",
+        bonus: true,
         initialDepositAmount: ["100", "1k", "2k", "20k", "30k", "50k"],
       },
       {
@@ -23,7 +24,7 @@ export const images = [
       {
         name: "GENTLEPAY x APPS",
         range: "100-20000",
-        bonus: "+3% BONUS",
+        bonus: true,
         initialDepositAmount: ["100", "3k", "5k", "10k", "15", "20k"],
       },
       {
@@ -79,7 +80,7 @@ export const images = [
       {
         name: "KUMARPAY x APPS",
         range: "100-20000",
-        bonus: "+3% BONUS",
+        bonus: true,
         initialDepositAmount: ["100", "2k", "5k", "10k", "15k", "20k"],
       },
     ],
@@ -89,11 +90,12 @@ export const images = [
     name: "UPI x QR",
     image: upi_icon,
     alt: "upi_icon_1",
+    bonus: 3, // Bonus moved to parent
     details: [
       {
         name: "MAHAPAY x QR",
         range: "500-50000",
-        bonus: "+3% BONUS",
+        bonus: true,
         initialDepositAmount: ["500", "2k", "5k", "10k", "20k", "50k"],
       },
       {
@@ -104,7 +106,7 @@ export const images = [
       {
         name: "TTPAY x QR",
         range: "500-50000",
-        bonus: "+3% BONUS",
+        bonus: true,
         initialDepositAmount: ["500", "2k", "5k", "10k", "20k", "50k"],
       },
       {
@@ -134,11 +136,12 @@ export const images = [
     name: "USDT",
     image: usdt_red_icon,
     alt: "usdt_red_icon",
+    bonus: 5, // Bonus moved to parent
     details: [
       {
         name: "CASHPAY (TRC-20)",
         range: "10U-100000U",
-        bonus: "+3% BONUS",
+        bonus: true,
         initialDepositAmount: ["10", "50", "100", "200", "500", "1000"],
       },
     ],
@@ -148,11 +151,12 @@ export const images = [
     name: "Wallet",
     image: wallet_icon,
     alt: "wallet_icon",
+    bonus: 3, // Bonus moved to parent
     details: [
       {
         name: "RPLINK",
         range: "1000-100000",
-        bonus: "+3% BONUS",
+        bonus: true,
         initialDepositAmount: ["1000", "2k", "5k", "10k", "50k", "100k"],
       },
     ],
