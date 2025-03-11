@@ -1,34 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { ArrowLeft, History, Gift as GiftIcon } from "lucide-react";
 import safe_money from "../../assets/images/gift/gift.png";
+import axiosInstance from "../../config/axiosInstance";
 
 const Gift = () => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
   const [giftCode, setGiftCode] = useState("");
-  const [giftHistory, setGiftHistory] = useState([
-    { code: "WELCOME100", date: "2025-02-15", status: "Redeemed" },
-    { code: "BONUS50", date: "2025-01-10", status: "Expired" },
-  ]);
+  const [giftHistory, setGiftHistory] = useState([]);
 
-  const handleRedeem = () => {
-    if (giftCode.trim() === "") {
-      alert("Please enter a valid gift code!");
-      return;
-    }
-    setGiftHistory([
-      {
+  const handleRedeem = async () => {
+    try {
+      if (giftCode.trim() === "") {
+        alert("Please enter a valid gift code!");
+        return;
+      }
+      const response = await axiosInstance.post("/gifts/redeem-gift", {
         code: giftCode,
-        date: new Date().toISOString().split("T")[0],
-        status: "Redeemed",
-      },
-      ...giftHistory,
-    ]);
-    setGiftCode("");
-    alert("Gift code redeemed successfully!");
+      });
+      alert(response.data.message);
+      fetchAllUserGifts();
+      setGiftCode("");
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   };
+
+  const fetchAllUserGifts = async () => {
+    try {
+      const response = await axiosInstance.get("/gifts/get-all-user-gifts", {
+        params: { userId: user?.userId },
+      });
+
+      const formattedGifts = response.data.gifts.map((gift) => ({
+        code: gift.code,
+        date: new Date(gift.claimedAt).toISOString().split("T")[0], // Formatting date
+        status: gift.status,
+      }));
+
+      setGiftHistory(formattedGifts);
+    } catch (error) {
+      alert(error.response?.data?.message || "Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    fetchAllUserGifts();
+  }, []);
 
   return (
     <div className="mb-28 min-h-screen flex flex-col items-center">
@@ -99,7 +119,7 @@ const Gift = () => {
                     <td className="py-2 px-4 text-gray-500">{gift.date}</td>
                     <td
                       className={`py-2 px-4 font-semibold ${
-                        gift.status === "Redeemed"
+                        gift.status === "redeemed"
                           ? "text-green-500"
                           : "text-red-500"
                       }`}

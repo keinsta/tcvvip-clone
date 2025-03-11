@@ -96,8 +96,8 @@ const UserWallet = () => {
               <circle
                 className="text-yellow-500"
                 strokeWidth="10"
-                strokeDasharray={strokeDasharray}
-                strokeDashoffset={strokeDashoffset}
+                strokeDasharray={0}
+                strokeDashoffset={0}
                 strokeLinecap="round"
                 stroke="currentColor"
                 fill="transparent"
@@ -107,8 +107,8 @@ const UserWallet = () => {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-lg text-gray-100">
-              <span>{progress}%</span>
-              <span className="text-xs">₹{calculatedAmount}</span>
+              <span>0%</span>
+              <span className="text-xs">₹0.00</span>
             </div>
             <p className="text-sm text-white text-center mt-2">
               3rd Party Wallet

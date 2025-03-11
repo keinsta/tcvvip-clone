@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
+import axiosInstance from "../../config/axiosInstance";
 
 const FeedbackPage = () => {
   const [activeTab, setActiveTab] = useState("feedback"); // Toggle between "Feedback" and "My Feedback"
   const [feedbackType, setFeedbackType] = useState(""); // Stores selected feedback type
+  const feedbackTypes = ["Suggestion", "Function", "Bug", "Other"];
   const [description, setDescription] = useState(""); // Stores user description
   const [error, setError] = useState(""); // Stores validation errors
   const [feedbackList, setFeedbackList] = useState([
-    { type: "Bug", description: "Login button not working properly." },
-    { type: "Suggestion", description: "Add dark mode feature." },
+    // { type: "Bug", description: "Login button not working properly." },
+    // { type: "Suggestion", description: "Add dark mode feature." },
   ]); // Dummy past feedback data
 
   const handleTabChange = (tab) => setActiveTab(tab);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!feedbackType) {
       setError("Feedback Type is required!");
       return;
@@ -23,15 +25,37 @@ const FeedbackPage = () => {
       return;
     }
 
-    // Add new feedback to the list
-    const newFeedback = { type: feedbackType, description };
-    setFeedbackList([...feedbackList, newFeedback]);
-
-    alert("Feedback Submitted Successfully! ✅");
-    setError("");
-    setFeedbackType("");
-    setDescription("");
+    await axiosInstance
+      .post("/feedbacks/add-feedback", {
+        type: feedbackType,
+        description,
+      })
+      .then((response) => {
+        alert(response.data.message);
+        setError("");
+        setFeedbackType("");
+        setDescription("");
+        getAllFeedbacks();
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
   };
+
+  const getAllFeedbacks = async () => {
+    await axiosInstance
+      .get("/feedbacks/get-all-feedbacks")
+      .then((response) => {
+        setFeedbackList(response.data.feedbacks);
+      })
+      .catch((error) => {
+        alert(error.response?.data?.message || "Something went wrong");
+      });
+  };
+
+  useEffect(() => {
+    getAllFeedbacks();
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center ">
@@ -65,7 +89,7 @@ const FeedbackPage = () => {
             }`}
             onClick={() => handleTabChange("myFeedback")}
           >
-            My Feedback
+            My Feedbacks
           </button>
         </div>
 
@@ -77,7 +101,7 @@ const FeedbackPage = () => {
               Feedback Type <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-2 gap-2 mt-2">
-              {["Suggestion", "Function", "Bug", "Other"].map((type) => (
+              {feedbackTypes.map((type) => (
                 <button
                   key={type}
                   className={`py-2 rounded-lg text-sm font-medium transition-all ${
@@ -123,7 +147,7 @@ const FeedbackPage = () => {
           // My Feedback Section
           <div className="w-full max-w-md mt-6 bg-white shadow-lg rounded-lg p-5">
             <h2 className="text-lg font-semibold text-gray-700 mb-3">
-              My Feedback
+              My Feedbacks
             </h2>
             {feedbackList.length > 0 ? (
               feedbackList.map((feedback, index) => (

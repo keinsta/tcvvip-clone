@@ -196,6 +196,8 @@ const Settings = () => {
       });
   };
 
+  const handleResetWithdrawalPassword = async () => {};
+
   useEffect(() => {
     fetchUser();
   }, []);
