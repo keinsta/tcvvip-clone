@@ -6,19 +6,19 @@ const dummyData = [
   {
     id: 1,
     name: "Michael Johnson",
-    prize: "$9000",
+    prize: "₹9000",
     avatar: "https://i.pravatar.cc/100?img=3", // Working Avatar Image
   },
   {
     id: 2,
     name: "John Doe",
-    prize: "$5000",
+    prize: "₹5000",
     avatar: "https://i.pravatar.cc/100?img=1", // Working Avatar Image
   },
   {
     id: 3,
     name: "Alice Smith",
-    prize: "$7000",
+    prize: "₹7000",
     avatar: "https://i.pravatar.cc/100?img=2", // Working Avatar Image
   },
 ];

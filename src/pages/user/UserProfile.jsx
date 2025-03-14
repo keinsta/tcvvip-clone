@@ -88,6 +88,7 @@ const UserProfile = () => {
   const { user, fetchUser } = useAuthStore();
   const memberId = user?.uid?.replace("MEMBER-", "") || "";
   const memberAvatar = user?.avatar;
+  const withdrawalPasswordStatus = user?.withdrawalPasswordStatus;
   const navigate = useNavigate();
   const [selectedAvatar, setSelectedAvatar] = useState("");
   const [lastLogin, setLastLogin] = useState([]);
@@ -109,6 +110,14 @@ const UserProfile = () => {
     navigator.clipboard.writeText(memberId);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleNavigation = (e) => {
+    if (!withdrawalPasswordStatus) {
+      e.preventDefault(); // Prevent default link navigation
+      alert("You need to set up your withdrawal password first!");
+      navigate("/user-me/settings");
+    }
   };
 
   const formatDateTime = (isoString) => {
@@ -155,7 +164,7 @@ const UserProfile = () => {
             <img
               src={selectedAvatar?.avatar}
               alt="Avatar"
-              className="w-full h-full rounded-full cursor-pointer"
+              className="w-full h-full rounded-full cursor-pointer border-4 border-yellow-400"
             />
           </div>
 
@@ -214,7 +223,10 @@ const UserProfile = () => {
                 <p className="text-sm text-white">Deposit</p>
               </div>
             </Link>
-            <Link to={"/withdraw"}>
+            <Link
+              to={withdrawalPasswordStatus ? "/withdraw" : "/user-me/settings"}
+              onClick={handleNavigation}
+            >
               <div className="flex flex-col items-center cursor-pointer">
                 <Upload className="w-7 h-7 mb-1 text-yellow-500" />
                 <p className="text-sm text-white">Withdraw</p>

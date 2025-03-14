@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 w-full max-w-[500px] h-[70px] bg-white flex items-center justify-around shadow-t-md">
+    <footer className="fixed bottom-0 w-full max-w-[500px] h-[70px] bg-yellow-500 flex items-center justify-around shadow-t-md">
       <div className="flex justify-around w-[40%]">
         <Link to={"/"}>
           <FooterItem icon={<Home size={24} />} label="Home" />
@@ -15,13 +15,13 @@ const Footer = () => {
       </div>
 
       {/* Central Agent Icon (Larger & Raised) */}
-      <div className="flex flex-col items-center absolute -top-6 bg-white w-16 h-16 pt-2 rounded-full border-t-2">
+      <div className="flex flex-col items-center absolute -top-7 bg-yellow-500 w-20 h-20 pt-2 rounded-full ">
         <Link to={"/agent"}>
           <FooterItem icon={<Users size={30} />} label="Agent" isCentral />
         </Link>
       </div>
 
-      <div className="flex justify-around  w-[40%]">
+      <div className="flex justify-around w-[40%]">
         <Link to={"/wallet"}>
           <FooterItem icon={<Wallet size={24} />} label="Wallet" />
         </Link>
@@ -38,11 +38,7 @@ const FooterItem = ({ icon, label, isCentral }) => {
   return (
     <div
       className={`flex flex-col items-center cursor-pointer transition-all duration-300
-      ${
-        isCentral
-          ? "text-yellow-500 scale-110"
-          : "text-gray-600 hover:text-yellow-500"
-      }
+      ${isCentral ? "text-white scale-110" : "text-white hover:text-yellow-200"}
       `}
     >
       <div

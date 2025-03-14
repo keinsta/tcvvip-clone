@@ -51,7 +51,7 @@ const settings = [
   {
     icon: <DollarSign className="w-7 h-7 text-yellow-500" />,
     title: "Commission Details",
-    subtitle: "Total Earnings: $4500",
+    subtitle: "Total Earnings: ₹4500",
   },
   {
     icon: <UserPlus className="w-7 h-7 text-yellow-500" />,

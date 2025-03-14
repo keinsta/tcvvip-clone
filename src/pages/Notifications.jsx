@@ -6,7 +6,7 @@ import useNotificationStore from "../store/useNotificationStore";
 const categories = [
   {
     id: 1,
-    name: "notifications",
+    name: "notification",
     label: "Notifications",
     icon: <MessageCircle size={20} />,
   },

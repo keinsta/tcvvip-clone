@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { icons } from "../../assets/icons/wallet-icons";
 import useAuthStore from "../../store/authStore";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserWallet = () => {
   const { user } = useAuthStore();
+  const navigate = useNavigate();
+  const withdrawalPasswordStatus = user?.withdrawalPasswordStatus;
   const maxBalance = user?.totalBalance || 0; // Ensure totalBalance is always defined
   const [progress, setProgress] = useState(0);
+
+  const handleNavigation = (e, link) => {
+    if (!withdrawalPasswordStatus && link === "/withdraw") {
+      e.preventDefault(); // Stop the default navigation
+      alert("You need to set up your withdrawal password first!");
+      navigate("/user-me/settings"); // Redirect manually
+    }
+  };
 
   useEffect(() => {
     if (maxBalance > 0) {
@@ -124,12 +135,22 @@ const UserWallet = () => {
         {/* Icons Section */}
         <div className="flex justify-between p-4">
           {icons.slice(1).map((icon, index) => (
-            <div key={index} className="flex flex-col items-center w-12">
-              <div className="p-2 bg-orange-100 rounded-2xl mb-2">
-                <img src={icon.icon} alt={icon.title} />
+            <Link
+              key={index}
+              to={
+                withdrawalPasswordStatus || icon.link_to !== "/withdraw"
+                  ? icon.link_to
+                  : "/user-me/settings"
+              }
+              onClick={(e) => handleNavigation(e, icon.link_to)}
+            >
+              <div className="flex flex-col items-center w-12">
+                <div className="p-2 bg-orange-100 rounded-2xl mb-2">
+                  <img src={icon.icon} alt={icon.title} />
+                </div>
+                <p className="text-xs text-white text-center">{icon.title}</p>
               </div>
-              <p className="text-xs text-white text-center">{icon.title}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { ArrowLeft, Calendar, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useTransactionStore from "../../../store/transactionStore";
+import { ArrowLeft, Calendar, ChevronDown } from "lucide-react";
 import { transactions } from "./dummyData";
 
 const transactionTypes = [
@@ -50,24 +51,26 @@ const transactionTypes = [
 
 const TransactionHistory = () => {
   const navigate = useNavigate();
+  const { transactions } = useTransactionStore();
   const [selectedType, setSelectedType] = useState("All");
   const [selectedDate, setSelectedDate] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [copied, setCopied] = useState(null);
+
+  const handleCopy = (transactionId) => {
+    navigator.clipboard.writeText(transactionId);
+    setCopied(transactionId);
+
+    // Reset tooltip after 2 seconds
+    setTimeout(() => setCopied(null), 2000);
+  };
 
   const filteredTransactions = transactions.filter((transaction) =>
     selectedType === "All" ? true : transaction.type === selectedType
   );
 
-  // useEffect(() => {
-  //   console.log(filteredTransactions);
-  // }, [filteredTransactions]);
-
-  useEffect(() => {
-    console.log(selectedDate);
-  }, [selectedDate]);
-
   return (
-    <div className="min-h-screen mb-24 flex flex-col items-center">
+    <div className="min-h-screen mb-28 flex flex-col items-center">
       {/* Header */}
       <div className="w-full h-[54px] bg-gradient-yellow-headers flex items-center justify-between px-4 shadow-md text-white">
         <div className="flex justify-center">
@@ -118,6 +121,9 @@ const TransactionHistory = () => {
         </div>
       </div>
 
+      <h3 className="text-gray-100 text-sm mb-1">
+        Click any Transaction to copy TID
+      </h3>
       {/* Table */}
       <div className="w-full max-w-4xl mx-auto overflow-x-auto">
         <table className="w-full text-left border-collapse">
@@ -126,27 +132,59 @@ const TransactionHistory = () => {
               <th className="p-3 whitespace-nowrap">Type</th>
               <th className="p-3 whitespace-nowrap">Time</th>
               <th className="p-3 whitespace-nowrap">Amount</th>
+              <th className="p-3 whitespace-nowrap">Status</th>
             </tr>
           </thead>
           <tbody>
             {filteredTransactions.length > 0 ? (
               filteredTransactions.map((transaction, index) => (
-                <tr key={index} className="text-sm md:text-base transition">
-                  <td className="p-3 text-white break-words">
-                    {transaction.type}
-                  </td>
-                  <td className="p-3 text-gray-300 break-words">
-                    {transaction.date} {transaction.time}
-                  </td>
-                  <td className="p-3 text-green-400 font-semibold break-words">
-                    {transaction.amount}
-                  </td>
-                </tr>
+                <React.Fragment key={index}>
+                  <tr
+                    className="text-sm md:text-base transition hover:bg-[#595959] cursor-pointer relative"
+                    onClick={() => handleCopy(transaction.transactionId)}
+                  >
+                    <td className="p-3 text-white break-words">
+                      {transaction.type}
+                      {copied === transaction.transactionId && (
+                        <span className="absolute top-1 left-1 text-yellow-500 text-xs">
+                          Copied!
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="p-3 text-gray-300 break-words">
+                      {new Date(transaction.createdAt).toLocaleString()}
+                    </td>
+                    <td className="p-3 text-yellow-500 font-semibold break-words">
+                      ₹{transaction.amount}
+                    </td>
+
+                    <td
+                      className={`p-3 font-semibold break-words ${
+                        transaction.status === "Completed"
+                          ? "text-green-600"
+                          : transaction.status === "Pending"
+                          ? "text-yellow-600"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {transaction.status}
+                    </td>
+                  </tr>
+                  {/* Divider */}
+                  {index !== filteredTransactions.length - 1 && (
+                    <tr>
+                      <td colSpan="4">
+                        <hr className="border-gray-600" />
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
               ))
             ) : (
               <tr>
                 <td
-                  colSpan="3"
+                  colSpan="4"
                   className="p-4 text-center text-gray-400 font-semibold"
                 >
                   No Transactions Available

@@ -8,10 +8,18 @@ import transaction from "./transaction.png";
 
 export const icons = [
   { icon: walletIcon, title: "Wallet Icon" },
-  { icon: deposit, title: "Deposit" },
-  { icon: withdraw, title: "Withdraw" },
-  { icon: depositHistory, title: "Deposit History" },
-  { icon: withdrawHistory, title: "Withdraw History" },
+  { icon: deposit, title: "Deposit", link_to: "/deposit" },
+  { icon: withdraw, title: "Withdraw", link_to: "/withdraw" },
+  {
+    icon: depositHistory,
+    title: "Deposit History",
+    link_to: "/deposit-history",
+  },
+  {
+    icon: withdrawHistory,
+    title: "Withdraw History",
+    link_to: "/withdraw-history",
+  },
 ];
 
 export const history_icons = [

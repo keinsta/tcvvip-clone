@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Eye, EyeOff, XCircle } from "lucide-react";
 import useAuthStore from "../../store/authStore";
 import { images } from "../../assets/images/payment-methods";
+import axiosInstance from "../../config/axiosInstance";
 
 const Deposit = () => {
   const navigate = useNavigate();
@@ -41,8 +42,16 @@ const Deposit = () => {
     setTotalAmount(bonusAmount + convertedAmount);
   };
 
-  const payAmount = () => {
-    console.log("You will get", totalAmount);
+  const payAmount = async () => {
+    try {
+      const response = await axiosInstance.post("/transaction/deposit", {
+        amount: totalAmount,
+        method: selectMethod.name,
+      });
+      alert(response.data.message);
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   };
 
   return (
@@ -56,7 +65,12 @@ const Deposit = () => {
           />
           <span className="text-lg">Deposit</span>
         </div>
-        <button className="text-yellow-900 text-xs">Deposit History</button>
+        <button
+          className="text-yellow-900 text-xs"
+          onClick={() => navigate("/deposit-history")}
+        >
+          Deposit History
+        </button>
       </div>
 
       <div className="w-full px-4 mt-4">

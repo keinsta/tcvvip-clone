@@ -1,25 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { withdrawHistory } from "./dummyData";
+import useTransactionStore from "../../../store/transactionStore";
+import { ArrowLeft, ChevronDown } from "lucide-react";
 
-const withdrawTypes = ["All", "Pending", "Completed", "Rejected"];
+const withdrawTypes = [
+  "All",
+  "Withdrawal",
+  "Withdrawal cancellation",
+  "Safe withdrawal",
+];
 
 const WithdrawHistory = () => {
   const navigate = useNavigate();
+  const { fetchAllTransactions, withdrawalTransactionHistory } =
+    useTransactionStore();
+  const withdrawalHistory = withdrawalTransactionHistory();
   const [selectedType, setSelectedType] = useState("All");
   const [selectedDate, setSelectedDate] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [copied, setCopied] = useState(null);
 
-  const filteredWithdraws = withdrawHistory
-    .filter(
-      (withdraw) => selectedType === "All" || withdraw.type === selectedType
-    )
-    .filter((withdraw) => !selectedDate || withdraw.date === selectedDate);
+  const handleCopy = (transactionId) => {
+    navigator.clipboard.writeText(transactionId);
+    setCopied(transactionId);
+
+    // Reset tooltip after 2 seconds
+    setTimeout(() => setCopied(null), 2000);
+  };
+
+  const filteredWithdraws = withdrawalHistory.filter(
+    (withdraw) => selectedType === "All" || withdraw.type === selectedType
+  );
 
   useEffect(() => {
-    console.log(selectedDate);
-  }, [selectedDate]);
+    fetchAllTransactions();
+    withdrawalTransactionHistory();
+  }, []);
 
   return (
     <div className="min-h-screen mb-24 flex flex-col items-center">
@@ -81,22 +97,49 @@ const WithdrawHistory = () => {
               <th className="p-3 whitespace-nowrap">Type</th>
               <th className="p-3 whitespace-nowrap">Time</th>
               <th className="p-3 whitespace-nowrap">Amount</th>
+              <th className="p-3 whitespace-nowrap">Status</th>
             </tr>
           </thead>
           <tbody>
             {filteredWithdraws.length > 0 ? (
               filteredWithdraws.map((withdraw, index) => (
-                <tr key={index} className="text-sm md:text-base transition ">
-                  <td className="p-3 text-white break-words">
-                    {withdraw.type}
-                  </td>
-                  <td className="p-3 text-gray-300 break-words">
-                    {withdraw.date} {withdraw.time}
-                  </td>
-                  <td className="p-3 text-red-400 font-semibold break-words">
-                    {withdraw.amount}
-                  </td>
-                </tr>
+                <React.Fragment key={index}>
+                  <tr
+                    className="text-sm md:text-base transition hover:bg-[#595959] cursor-pointer relative"
+                    onClick={() => handleCopy(withdraw.transactionId)}
+                  >
+                    <td className="p-3 text-white break-words">
+                      {withdraw.type}
+                      {copied === withdraw.transactionId && (
+                        <span className="absolute top-1 left-1 text-yellow-500 text-xs">
+                          Copied!
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="p-3 text-gray-300 break-words">
+                      {new Date(withdraw.createdAt).toLocaleString()}
+                    </td>
+                    <td className="p-3 text-yellow-500 font-semibold break-words">
+                      ₹{withdraw.amount}
+                    </td>
+                    <td
+                      className={`p-3 font-semibold break-words ${
+                        withdraw.status === "Completed"
+                          ? "text-green-600"
+                          : withdraw.status === "Pending"
+                          ? "text-yellow-600"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {withdraw.status}
+                    </td>
+                  </tr>
+                  {/* Divider Row */}
+                  <tr>
+                    <td colSpan="4" className="border-b border-gray-600"></td>
+                  </tr>
+                </React.Fragment>
               ))
             ) : (
               <tr>

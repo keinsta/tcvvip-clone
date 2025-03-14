@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -18,7 +18,13 @@ import {
 } from "lucide-react";
 import Select from "react-select";
 import useAuthStore from "../../store/authStore";
+import useTransactionStore from "../../store/transactionStore";
 import wallet_banner from "../../assets/images/banners/wallet_banner.jpg";
+import axiosInstance from "../../config/axiosInstance";
+
+import BankModal from "./withdrawModals/BankModal";
+import USDTModal from "./withdrawModals/USDTModal";
+import WalletModal from "./withdrawModals/WalletModal";
 
 const withdrawalOptions = [
   {
@@ -53,66 +59,136 @@ const withdrawalOptions = [
   },
 ];
 
-const bankOptions = [
-  { value: "SBI", label: "State Bank of India" },
-  { value: "HDFC", label: "HDFC Bank" },
-  { value: "ICICI", label: "ICICI Bank" },
-  { value: "AXIS", label: "Axis Bank" },
-  { value: "PNB", label: "Punjab National Bank" },
-  { value: "BOB", label: "Bank of Baroda" },
-  { value: "CANARA", label: "Canara Bank" },
-];
-const usdtOptions = [{ value: "TRC20", label: "TRC20" }];
-const walletOptions = [{ value: "INCASH", label: "INCASH" }];
-
 const Withdraw = () => {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, fetchUser } = useAuthStore();
+  const withdrawalMethodSet = user?.withdrawalMethodSet;
+  const { bankDetails, usdtDetails, walletDetails } = useTransactionStore();
+
   const [showBalance, setShowBalance] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState("Bank Card");
 
+  const [details, setDetails] = useState({});
   const [showBankModal, setShowBankModal] = useState(false);
-  const [bankDetails, setBankDetails] = useState({
-    bank: null,
-    cardholderName: "",
-    accountNumber: "",
-    ifscCode: "",
-    email: "",
-    phone: "",
-    state: "",
-    city: "",
-    branch: "",
-  });
   const [showUsdtModal, setShowUsdtModal] = useState(false);
-  const [usdtDetails, setUsdtDetails] = useState({
-    usdtWalletAddress: "",
-  });
   const [showWalletModal, setShowWalletModal] = useState(false);
-  const [walletDetails, setWalletDetails] = useState({
-    walletAddress: "",
-  });
+
+  const [withdrawalAmount, setWithdrawalAmount] = useState("");
+  const [withdrawalPassword, setWithdrawalPassword] = useState("");
 
   const selectedOption = withdrawalOptions.find(
     (option) => option.name === selectedMethod
   );
 
-  const handleBankDetailsChange = (e) => {
-    setBankDetails({ ...bankDetails, [e.target.name]: e.target.value });
+  const handleBankWithdrawal = async () => {
+    try {
+      // First API call: Validate withdrawal password
+      const validateResponse = await axiosInstance.post(
+        "/auth/validate-withdrawal-password",
+        {
+          withdrawalPassword,
+        }
+      );
+
+      console.log(validateResponse.data.message);
+      if (!validateResponse.data.success) {
+        alert("Withdrawal Password validation failed!");
+        return;
+      }
+
+      // If validation is successful, proceed with withdrawal
+      const withdrawResponse = await axiosInstance.post(
+        "/transaction/withdraw",
+        {
+          amount: withdrawalAmount,
+          method: "Bank Card",
+          methodDetails: bankDetails,
+        }
+      );
+
+      alert(withdrawResponse.data.message);
+      setWithdrawalAmount("");
+      setWithdrawalPassword("");
+    } catch (error) {
+      alert(error.response?.data?.message || "An error occurred");
+      setWithdrawalAmount("");
+      setWithdrawalPassword("");
+    }
+  };
+  const handleUSDTWithdrawal = async () => {
+    try {
+      // First API call: Validate withdrawal password
+      const validateResponse = await axiosInstance.post(
+        "/auth/validate-withdrawal-password",
+        {
+          withdrawalPassword,
+        }
+      );
+
+      console.log(validateResponse.data.message);
+      if (!validateResponse.data.success) {
+        alert("Withdrawal Password validation failed!");
+        return;
+      }
+
+      // If validation is successful, proceed with withdrawal
+      const withdrawResponse = await axiosInstance.post(
+        "/transaction/withdraw",
+        {
+          amount: withdrawalAmount,
+          method: "USDT",
+          methodDetails: usdtDetails,
+        }
+      );
+
+      alert(withdrawResponse.data.message);
+      setWithdrawalAmount("");
+      setWithdrawalPassword("");
+    } catch (error) {
+      alert(error.response?.data?.message || "An error occurred");
+      setWithdrawalAmount("");
+      setWithdrawalPassword("");
+    }
+  };
+  const handleWalletWithdrawal = async () => {
+    try {
+      // First API call: Validate withdrawal password
+      const validateResponse = await axiosInstance.post(
+        "/auth/validate-withdrawal-password",
+        {
+          withdrawalPassword,
+        }
+      );
+
+      console.log(validateResponse.data.message);
+      if (!validateResponse.data.success) {
+        alert("Withdrawal Password validation failed!");
+        return;
+      }
+
+      // If validation is successful, proceed with withdrawal
+      const withdrawResponse = await axiosInstance.post(
+        "/transaction/withdraw",
+        {
+          amount: withdrawalAmount,
+          method: "Wallet",
+          methodDetails: walletDetails,
+        }
+      );
+
+      alert(withdrawResponse.data.message);
+      setWithdrawalAmount("");
+      setWithdrawalPassword("");
+    } catch (error) {
+      alert(error.response?.data?.message || "An error occurred");
+      setWithdrawalAmount("");
+      setWithdrawalPassword("");
+    }
   };
 
-  const handleUsdtDetailsChange = (e) => {
-    setUsdtDetails({ ...usdtDetails, [e.target.name]: e.target.value });
-  };
-
-  const handleWalletDetailsChange = (e) => {
-    setWalletDetails({ ...walletDetails, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    console.log(bankDetails);
-    console.log(usdtDetails);
-    console.log(walletDetails);
-  };
+  useEffect(() => {
+    fetchUser();
+  }, [details]);
 
   return (
     <div className="min-h-screen mb-24 flex flex-col items-center">
@@ -125,7 +201,12 @@ const Withdraw = () => {
           />
           <span className="text-lg">Withdraw</span>
         </div>
-        <button className="text-yellow-900 text-xs">Withdraw History</button>
+        <button
+          className="text-yellow-900 text-xs"
+          onClick={() => navigate("/withdraw-history")}
+        >
+          Withdraw History
+        </button>
       </div>
 
       <div className="w-full px-4 mt-4 space-y-4">
@@ -181,74 +262,159 @@ const Withdraw = () => {
             </div>
           </div>
 
+          <div className="w-full">
+            <h3 className="text-white font-semibold">Receiving Amount</h3>
+          </div>
           {/* Payment Input Field */}
           <div className="relative w-full mt-4">
             <span className="absolute inset-y-0 left-3 flex items-center text-yellow-500">
               <DollarSign className="w-5 h-5" />
             </span>
             <input
+              value={withdrawalAmount}
+              onChange={(e) => setWithdrawalAmount(e.target.value)}
               className="w-full p-3 pl-10 text-white placeholder-gray-300 rounded-md bg-app-bg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all duration-300 no-spinner"
               placeholder="Please enter withdrawal amount"
               type="number"
             />
           </div>
-
-          <div className="w-full">
-            <h3 className="text-white font-semibold">Receiving Amount</h3>
-          </div>
-          {/* Dynamic Section Based on Selected Method */}
-          {selectedMethod === "Bank Card" && (
-            <div className="w-full flex justify-center items-center bg-white rounded-md border-2 border-yellow-500 cursor-pointer p-2">
-              <button
-                onClick={() => setShowBankModal(true)}
-                className="flex items-center text-sm space-x-1 text-white bg-yellow-600 p-2 rounded-lg transition-transform transform hover:scale-105"
-              >
-                <PlusCircle size={20} />
-                <span>Add Bank Account Number</span>
-              </button>
-            </div>
-          )}
-          {selectedMethod === "USDT" && (
-            <div className="w-full flex justify-center items-center bg-white rounded-md border-2 border-yellow-500 cursor-pointer p-2">
-              <button
-                onClick={() => setShowUsdtModal(true)}
-                className="flex items-center text-sm space-x-1 text-white bg-yellow-600 p-2 rounded-lg transition-transform transform hover:scale-105"
-              >
-                <PlusCircle size={20} />
-                <span>Add USDT</span>
-              </button>
-            </div>
-          )}
-          {selectedMethod === "Wallet" && (
-            <div className="w-full flex flex-col items-center rounded-md bg-white cursor-pointer">
-              <img src={wallet_banner} className="rounded-md" />
-              <button
-                onClick={() => setShowWalletModal(true)}
-                className="flex items-center text-sm space-x-1 my-1 text-white bg-yellow-600 p-2 rounded-lg transition-transform transform hover:scale-105"
-              >
-                <PlusCircle size={20} />
-                <span>Wallet</span>
-              </button>
-            </div>
-          )}
-
           {/* Withdrawal Password Input Field */}
           <div className="relative w-full mt-4">
             <span className="absolute inset-y-0 left-3 flex items-center text-yellow-500">
               <Key className="w-5 h-5" />
             </span>
             <input
+              value={withdrawalPassword}
+              onChange={(e) => setWithdrawalPassword(e.target.value)}
               className="w-full p-3 pl-10 text-white placeholder-gray-300 rounded-md bg-app-bg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all duration-300 no-spinner"
               placeholder="Enter withdrawal password"
               type="password"
             />
           </div>
 
-          <button className="w-[50%] py-2 text-white font-semibold bg-gradient-yellow-headers rounded-3xl shadow-xl transition-transform transform hover:scale-105 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-            Withdraw
-          </button>
+          {/* Dynamic Section Based on Selected Method */}
+          {selectedMethod === "Bank Card" &&
+            (withdrawalMethodSet?.bankCard ? (
+              <div className="w-full flex flex-col items-center gap-3">
+                <div className="w-full bg-white rounded-md border-1 border-yellow-500 p-2">
+                  <h4 className="text-sm">
+                    <span className="text-xs font-semibold">
+                      Name On Card:{" "}
+                    </span>
+                    {bankDetails?.cardholderName}
+                  </h4>
+                  <h5>
+                    <span className="text-xs font-semibold">
+                      Account Number:{" "}
+                    </span>
+                    {bankDetails?.accountNumber
+                      ? `${bankDetails.accountNumber.slice(
+                          0,
+                          2
+                        )}*****${bankDetails.accountNumber.slice(-3)}`
+                      : "N/A"}
+                  </h5>
+                </div>
+                <button
+                  onClick={handleBankWithdrawal}
+                  className="w-[50%] py-2 text-white font-semibold bg-gradient-yellow-headers rounded-3xl shadow-xl transition-transform transform hover:scale-105 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                >
+                  Withdraw
+                </button>
+              </div>
+            ) : (
+              <div className="w-full flex justify-center items-center bg-white rounded-md border-2 border-yellow-500 cursor-pointer p-2">
+                <button
+                  onClick={() => setShowBankModal(true)}
+                  className="flex items-center text-sm space-x-1 text-white bg-yellow-600 p-2 rounded-lg transition-transform transform hover:scale-105"
+                >
+                  <PlusCircle size={20} />
+                  <span>Add Bank Account Number</span>
+                </button>
+              </div>
+            ))}
+          {selectedMethod === "USDT" &&
+            (withdrawalMethodSet?.usdt ? (
+              <div className="w-full flex flex-col items-center gap-3">
+                <div className="w-full bg-white rounded-md border-1 border-yellow-500 p-2">
+                  <h4 className="text-sm">
+                    <span className="text-xs font-semibold">
+                      Network Type:{" "}
+                    </span>
+                    {usdtDetails?.usdtType?.label}
+                  </h4>
+                  <h5>
+                    <span className="text-xs font-semibold">
+                      Wallet Address #{" "}
+                    </span>
+                    {usdtDetails?.usdtWalletAddress
+                      ? `${usdtDetails.usdtWalletAddress.slice(
+                          0,
+                          5
+                        )}*****${usdtDetails.usdtWalletAddress.slice(-3)}`
+                      : "N/A"}
+                  </h5>
+                </div>
+                <button
+                  onClick={handleUSDTWithdrawal}
+                  className="w-[50%] py-2 text-white font-semibold bg-gradient-yellow-headers rounded-3xl shadow-xl transition-transform transform hover:scale-105 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                >
+                  Withdraw
+                </button>
+              </div>
+            ) : (
+              <div className="w-full flex justify-center items-center bg-white rounded-md border-2 border-yellow-500 cursor-pointer p-2">
+                <button
+                  onClick={() => setShowUsdtModal(true)}
+                  className="flex items-center text-sm space-x-1 text-white bg-yellow-600 p-2 rounded-lg transition-transform transform hover:scale-105"
+                >
+                  <PlusCircle size={20} />
+                  <span>Add USDT</span>
+                </button>
+              </div>
+            ))}
+          {selectedMethod === "Wallet" &&
+            (withdrawalMethodSet?.wallet ? (
+              <div className="w-full flex flex-col items-center gap-3">
+                <div className="w-full bg-white rounded-md border-1 border-yellow-500 p-2">
+                  <h4 className="text-sm">
+                    <span className="text-xs font-semibold">Wallet Type: </span>
+                    {walletDetails?.walletType?.label}
+                  </h4>
+                  <h5>
+                    <span className="text-xs font-semibold">
+                      Wallet Address #{" "}
+                    </span>
+                    {walletDetails?.walletAddress
+                      ? `${walletDetails.walletAddress.slice(
+                          0,
+                          5
+                        )}*****${walletDetails.walletAddress.slice(-3)}`
+                      : "N/A"}
+                  </h5>
+                </div>
+                <button
+                  onClick={handleUSDTWithdrawal}
+                  className="w-[50%] py-2 text-white font-semibold bg-gradient-yellow-headers rounded-3xl shadow-xl transition-transform transform hover:scale-105 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                >
+                  Withdraw
+                </button>
+              </div>
+            ) : (
+              <div className="w-full flex flex-col items-center rounded-md bg-white cursor-pointer">
+                <img src={wallet_banner} className="rounded-md" />
+                <button
+                  onClick={() => setShowWalletModal(true)}
+                  className="flex items-center text-sm space-x-1 my-1 text-white bg-yellow-600 p-2 rounded-lg transition-transform transform hover:scale-105"
+                >
+                  <PlusCircle size={20} />
+                  <span>Add Wallet</span>
+                </button>
+              </div>
+            ))}
         </div>
 
+        {/* Wallet Option Details */}
         <div className="w-full max-w-[500px] bg-white border-2 border-yellow-500 rounded-lg p-4 shadow-md">
           {selectedMethod === "Wallet" && (
             <div className="w-full max-w-[500px] bg-gray-100 border-2 border-yellow-500 rounded-lg p-4 shadow-md mt-4">
@@ -289,6 +455,7 @@ const Withdraw = () => {
               </ul>
             </div>
           )}
+
           <div className="mt-2 grid grid-cols-2 md:grid-cols-4 divide-x divide-gray-300">
             <div className="flex flex-col items-center p-3">
               <Clock className="w-6 h-6 text-yellow-500 mb-1" />
@@ -330,133 +497,26 @@ const Withdraw = () => {
 
       {/* Bank Modal */}
       {showBankModal && (
-        <div className="fixed inset-0 pt-4 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 mb-24 rounded-lg w-[90%]">
-            <XCircle
-              className="w-6 h-6 cursor-pointer float-right"
-              onClick={() => setShowBankModal(false)}
-            />
-            <h2 className="text-lg font-semibold mb-4">Add Bank Account</h2>
-            <Select
-              options={bankOptions}
-              isSearchable
-              placeholder="Search and select Bank"
-              onChange={(selected) =>
-                setBankDetails({ ...bankDetails, bank: selected })
-              }
-            />
-            {Object.keys(bankDetails).map((key) =>
-              key !== "bank" ? (
-                <input
-                  key={key}
-                  type="text"
-                  name={key}
-                  placeholder={`Please enter ${key.replace(/([A-Z])/g, " $1")}`}
-                  onChange={handleBankDetailsChange}
-                  className="w-full mt-2 p-2 border rounded"
-                />
-              ) : null
-            )}
-            <button
-              className="mt-4 bg-yellow-500 text-white px-4 py-2 rounded-md w-full"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-            <p className="text-center text-xs text-gray-600 mt-2">
-              Warm reminder: Please fill in the withdrawal bank card information
-              carefully. Once submitted, this information will be your only
-              withdrawal bank.
-            </p>
-          </div>
-        </div>
+        <BankModal
+          setShowBankModal={setShowBankModal}
+          setDetails={setDetails}
+        />
       )}
 
       {/* USDT Modal */}
       {showUsdtModal && (
-        <div className="fixed inset-0 pt-4 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 mb-24 rounded-lg w-[90%]">
-            <XCircle
-              className="w-6 h-6 cursor-pointer float-right"
-              onClick={() => setShowUsdtModal(false)}
-            />
-            <h2 className="text-lg font-semibold mb-4">Add USDT</h2>
-            <Select
-              options={usdtOptions}
-              isSearchable
-              placeholder="USDT Type"
-              onChange={(selected) =>
-                setUsdtDetails({ ...usdtDetails, usdtType: selected })
-              }
-            />
-            {Object.keys(usdtDetails).map((key) =>
-              key !== "usdtType" ? (
-                <input
-                  key={key}
-                  type="text"
-                  name={key}
-                  placeholder={`Please enter ${key.replace(/([A-Z])/g, " $1")}`}
-                  onChange={handleUsdtDetailsChange}
-                  className="w-full mt-2 p-2 border rounded"
-                />
-              ) : null
-            )}
-            <button
-              className="mt-4 bg-yellow-500 text-white px-4 py-2 rounded-md w-full"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-            <p className="text-center text-xs text-gray-600 mt-2">
-              USDT (TRC) address consists of 34 characters, starting with the
-              letter T.
-            </p>
-          </div>
-        </div>
+        <USDTModal
+          setShowUsdtModal={setShowUsdtModal}
+          setDetails={setDetails}
+        />
       )}
 
       {/* Wallet Modal */}
       {showWalletModal && (
-        <div className="fixed inset-0 pt-4 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 mb-24 rounded-lg w-[90%]">
-            <XCircle
-              className="w-6 h-6 cursor-pointer float-right"
-              onClick={() => setShowWalletModal(false)}
-            />
-            <h2 className="text-lg font-semibold mb-4">Add USDT</h2>
-            <Select
-              options={walletOptions}
-              isSearchable
-              placeholder="Wallet Type"
-              onChange={(selected) =>
-                setWalletDetails({ ...walletDetails, walletType: selected })
-              }
-            />
-            {Object.keys(walletDetails).map((key) =>
-              key !== "walletType" ? (
-                <input
-                  key={key}
-                  type="text"
-                  name={key}
-                  placeholder={`Please enter ${key.replace(/([A-Z])/g, " $1")}`}
-                  onChange={handleWalletDetailsChange}
-                  className="w-full mt-2 p-2 border rounded"
-                />
-              ) : null
-            )}
-            <button
-              className="mt-4 bg-yellow-500 text-white px-4 py-2 rounded-md w-full"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-            {/* <p className="text-center text-xs text-gray-600 mt-2">
-              Warm reminder: Please fill in the withdrawal bank card information
-              carefully. Once submitted, this information will be your only
-              withdrawal bank.
-            </p> */}
-          </div>
-        </div>
+        <WalletModal
+          setShowWalletModal={setShowWalletModal}
+          setDetails={setDetails}
+        />
       )}
     </div>
   );
